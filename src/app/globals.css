@@ -1,26 +1,574 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Spline+Sans+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-brand-500: #D33C34;
+  --color-brand-600: #b91c1c;
+  --color-brand-700: #991b1b;
+
+  --color-dark-950: #030303;
+  --color-dark-900: #050505;
+  --color-dark-850: #080808;
+  --color-dark-800: #0a0a0a;
+  --color-dark-700: #121212;
+  --color-dark-600: #1a1a1a;
+  --color-dark-500: #222222;
+  --color-dark-400: #2a2a2a;
+
+  --color-accent-teal: #71A1A1;
+  --color-accent-pink: #F5B5AF;
+
+  --font-sans: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Spline Sans Mono', ui-monospace, monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background-color: #030303;
+  color: #e5e5e5;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ========================================
+   HEAVY NOISE TEXTURE - PHYSICAL & RAW
+   ======================================== */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ========================================
+   TYPOGRAPHY - AGGRESSIVE & STRUCTURAL
+   ======================================== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-mono);
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Massive display text */
+.display-huge {
+  font-family: var(--font-mono);
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+
+/* Utility labels */
+.label-mono {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #666;
+}
+
+/* Terminal text */
+.terminal-text {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #555;
+  letter-spacing: 0.02em;
+}
+
+/* ========================================
+   BRUTALIST CONTAINERS - NO BLUR, HARD EDGES
+   ======================================== */
+.brutal-cell {
+  background-color: #030303;
+  border: 1px solid #1a1a1a;
+  transition: all 0.15s ease-out;
+}
+
+.brutal-cell:hover {
+  border-color: #D33C34;
+  background-color: #050505;
+  box-shadow: 4px 4px 0px 0px #D33C34;
+}
+
+.brutal-cell-active {
+  border-color: #D33C34;
+  background-color: #050505;
+  box-shadow: 4px 4px 0px 0px #D33C34;
+}
+
+/* Grid cell - no hover effect */
+.grid-cell {
+  background-color: transparent;
+  border: 1px solid #1a1a1a;
+}
+
+/* Navigation - solid, no blur */
+.nav-brutal {
+  background-color: #030303;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+/* ========================================
+   ARCHITECTURAL GRID SYSTEM
+   ======================================== */
+.grid-lines {
+  position: relative;
+}
+
+.grid-lines::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 100%;
+  background-color: #1a1a1a;
+}
+
+.border-grid {
+  border: 1px solid #1a1a1a;
+}
+
+.border-grid-red {
+  border: 1px solid #D33C34;
+}
+
+/* Hero background grid */
+.hero-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, #1a1a1a 1px, transparent 1px),
+    linear-gradient(to bottom, #1a1a1a 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Section dividers */
+.section-divider {
+  height: 1px;
+  background-color: #1a1a1a;
+  width: 100%;
+}
+
+.section-divider-red {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #D33C34, transparent);
+  width: 100%;
+}
+
+/* ========================================
+   BUTTONS - BRUTAL & MECHANICAL
+   ======================================== */
+.btn-brutal {
+  background-color: #D33C34;
+  color: #030303;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  border: none;
+  transition: all 0.1s ease-out;
+  cursor: pointer;
+}
+
+.btn-brutal:hover {
+  background-color: #fff;
+  color: #030303;
+  box-shadow: 4px 4px 0px 0px #D33C34;
+  transform: translate(-2px, -2px);
+}
+
+.btn-brutal:active {
+  box-shadow: none;
+  transform: translate(0, 0);
+}
+
+.btn-outline-brutal {
+  background-color: transparent;
+  color: #D33C34;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  border: 1px solid #D33C34;
+  transition: all 0.1s ease-out;
+  cursor: pointer;
+}
+
+.btn-outline-brutal:hover {
+  background-color: #D33C34;
+  color: #030303;
+  box-shadow: 4px 4px 0px 0px #1a1a1a;
+  transform: translate(-2px, -2px);
+}
+
+/* ========================================
+   STATUS INDICATORS - TEAL TERMINAL STYLE
+   ======================================== */
+.status-healthy {
+  color: #71A1A1;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #71A1A1;
+  display: inline-block;
+}
+
+.status-warning {
+  color: #D33C34;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ========================================
+   PROGRESS BARS - SOLID BLOCKS, NO GRADIENTS
+   ======================================== */
+.progress-brutal {
+  height: 4px;
+  background-color: #1a1a1a;
+  width: 100%;
+}
+
+.progress-brutal-fill {
+  height: 100%;
+  background-color: #D33C34;
+  transition: width 0.3s ease-out;
+}
+
+.progress-brutal-teal {
+  height: 100%;
+  background-color: #71A1A1;
+}
+
+/* ========================================
+   DATA STREAMS & MICRO-TYPOGRAPHY
+   ======================================== */
+.data-stream {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: #333;
+  letter-spacing: 0.05em;
+  line-height: 1.4;
+  overflow: hidden;
+}
+
+.hex-display {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  color: #f97316;
+  letter-spacing: 0.1em;
+}
+
+/* ========================================
+   WIREFRAME ELEMENTS
+   ======================================== */
+.wireframe-line {
+  stroke: #1a1a1a;
+  stroke-width: 1px;
+  fill: none;
+}
+
+.wireframe-line-red {
+  stroke: #D33C34;
+  stroke-width: 1px;
+  fill: none;
+}
+
+.scan-line {
+  background: linear-gradient(90deg, transparent, #D33C34, transparent);
+  height: 1px;
+  width: 100%;
+  animation: scan 2s linear infinite;
+}
+
+@keyframes scan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ========================================
+   TEXT EFFECTS - HARD, NO SOFT GLOWS
+   ======================================== */
+.text-gradient-brutal {
+  background: linear-gradient(180deg, #ffffff 0%, #D33C34 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  padding-right: 0.1em;
+  padding-bottom: 0.05em;
+  display: inline-block;
+}
+
+.text-red {
+  color: #D33C34;
+}
+
+.text-teal {
+  color: #71A1A1;
+}
+
+.text-muted {
+  color: #555;
+}
+
+.text-dimmed {
+  color: #333;
+}
+
+/* ========================================
+   SCROLLBAR - MINIMAL & BRUTAL
+   ======================================== */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #030303;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #D33C34;
+}
+
+/* ========================================
+   SELECTION
+   ======================================== */
+::selection {
+  background: #D33C34;
+  color: #030303;
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+.tracking-brutal {
+  letter-spacing: -0.05em;
+}
+
+.tracking-wide-brutal {
+  letter-spacing: 0.2em;
+}
+
+.leading-brutal {
+  line-height: 0.85;
+}
+
+/* ========================================
+   BOOT SEQUENCE - BIOS TERMINAL
+   ======================================== */
+.boot-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background-color: #030303;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.boot-text {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: #71A1A1;
+  letter-spacing: 0.05em;
+  line-height: 1.8;
+}
+
+.boot-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background-color: #ffffff;
+  animation: flash 0.05s ease-out forwards;
+}
+
+@keyframes flash {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ========================================
+   CUSTOM HUD CURSOR - BRUTAL CROSSHAIR
+   ======================================== */
+.cursor-hud {
+  cursor: none;
+}
+
+.crosshair {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99998;
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  transition: all 0.1s ease-out;
+}
+
+.crosshair-line {
+  position: absolute;
+  background-color: #555;
+}
+
+.crosshair-h {
+  width: 20px;
+  height: 1px;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.crosshair-v {
+  width: 1px;
+  height: 20px;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+.crosshair.hover {
+  width: 24px;
+  height: 24px;
+  background-color: #D33C34;
+  mix-blend-mode: difference;
+}
+
+.crosshair.hover .crosshair-line {
+  opacity: 0;
+}
+
+/* ========================================
+   KINETIC MARQUEE - WARNING TAPE
+   ======================================== */
+.marquee-container {
+  width: 100%;
+  height: 40px;
+  background-color: #D33C34;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-content {
+  display: flex;
+  position: absolute;
+  white-space: nowrap;
+  animation: marquee 15s linear infinite;
+}
+
+.marquee-text {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #030303;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0 2rem;
+  line-height: 40px;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ========================================
+   GLITCH EFFECT - CLIP-PATH DISTORTION
+   ======================================== */
+.btn-brutal {
+  position: relative;
+}
+
+.btn-brutal::before,
+.btn-brutal::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.btn-brutal::before {
+  color: #00ffff;
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+}
+
+.btn-brutal::after {
+  color: #ff0000;
+  clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+}
+
+.btn-brutal:hover::before,
+.btn-brutal:hover::after {
+  animation: glitch 0.15s ease-out;
+}
+
+@keyframes glitch {
+  0% {
+    opacity: 1;
+    transform: translate(0);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-2px, 1px);
+  }
+  40% {
+    opacity: 1;
+    transform: translate(2px, -1px);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(-1px, 2px);
+  }
+  80% {
+    opacity: 0;
+    transform: translate(1px, -2px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0);
+  }
 }

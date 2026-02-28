@@ -1,0 +1,399 @@
+================================================================================
+                         DEBLOAT AI - WEBSITE REPORT
+                              February 28, 2026
+================================================================================
+
+PROJECT OVERVIEW
+--------------------------------------------------------------------------------
+Debloat AI is a desktop application (Windows/Mac/Linux) that connects to 
+Android devices via ADB. Users remove phone bloatware by chatting with an AI 
+powered by Perplexity. This landing page communicates that product vision.
+
+DESIGN SYSTEM: RAW CYBER-BRUTALISM
+--------------------------------------------------------------------------------
+- ZERO glassmorphism, zero soft shadows, zero blur effects
+- Hard 1px borders (#1a1a1a)
+- Monospace typography throughout (Spline Sans Mono)
+- Color palette: #030303 (bg), #D33C34 (red), #71A1A1 (teal), #f97316 (orange)
+- Noise texture overlay for physical/raw aesthetic
+- 60px grid background pattern in hero section
+
+TYPOGRAPHY
+--------------------------------------------------------------------------------
+- Headlines: Spline Sans Mono, 700 weight
+- Body: Spline Sans Mono for consistency
+- Display sizes: text-5xl to text-7xl for hero headlines
+- Labels: 0.65rem, uppercase, 0.2em letter-spacing
+
+TECH STACK
+--------------------------------------------------------------------------------
+- Next.js 16.1.6 with React 19
+- Tailwind CSS v4
+- Framer Motion v12.34.3 (0.2s animations, circOut easing)
+- Lucide React v0.575.0 for icons
+- TypeScript
+
+================================================================================
+                              PAGE STRUCTURE
+================================================================================
+
+1. BOOT SEQUENCE PRE-LOADER
+--------------------------------------------------------------------------------
+- Full-screen black terminal simulation
+- 8 sequential messages with 100ms delay each:
+  • INITIALIZING ADB DAEMON v3.1.0...
+  • LOADING OPENCLAW NLP ENGINE... OK
+  • ESTABLISHING PERPLEXITY API LINK... OK
+  • SCANNING USB DEVICES... OK
+  • ANDROID DEVICE DETECTED... OK
+  • LOADING PACKAGE DATABASE... OK
+  • INITIALIZING CHAT INTERFACE... OK
+  • AWAITING COMMAND.
+- White flash transition on completion
+- Blinking cursor (█) at end
+
+2. CUSTOM HUD CURSOR
+--------------------------------------------------------------------------------
+- Crosshair design with horizontal/vertical lines
+- Transforms to dot on interactive elements (buttons, links, .brutal-cell)
+- Fixed positioning, follows mouse
+
+3. NAVIGATION BAR
+--------------------------------------------------------------------------------
+- Fixed top position, black background (#030303)
+- Logo: Red square with Zap icon + "DEBLOAT_AI"
+- Links: FEATURES, SYSTEM, DOCS, SUPPORT
+- Download button with glitch effect on hover
+- Mobile: Hamburger menu with slide-down panel
+
+4. HERO SECTION (VIEWPORT-FIT)
+--------------------------------------------------------------------------------
+Location: Full viewport height, below nav
+Layout: Two-column (50/50) on desktop
+
+Left Column:
+- Tag: "DESKTOP → ANDROID_VIA_ADB"
+- Headline: "TALK TO" (white)
+- Headline: "YOUR PHONE" (red gradient)
+- Subtext: "The first AI-powered Android debloater. Connect via USB. 
+           Chat with Perplexity. Nuke bloatware with plain English."
+- CTAs: [DOWNLOAD_NOW] [VIEW_DOCS]
+- Stats row: DEVICES 50K+ | NUKED 2.1M | PLATFORMS 3
+
+Right Column:
+- Chat Terminal animation showing conversation loop:
+  USER > scan for bloatware
+  SYSTEM > Analyzing connected device (Pixel 7)...
+  AI > Found 12 tracking apps and 4 manufacturer bloatware packages...
+  USER > what is com.miui.analytics
+  AI > Xiaomi telemetry service. Risk: HIGH...
+  USER > remove it
+  SYSTEM > Executing: adb shell pm uninstall -k --user 0...
+  AI > Package disabled successfully. Backup created...
+
+Status Bar (top):
+- ADB_CONNECTED (green dot)
+- PIXEL_7 (device name)
+- PERPLEXITY_ONLINE
+- v3.1.0
+
+Background:
+- 60px grid pattern overlay (opacity 0.4)
+
+5. KINETIC MARQUEE TICKER
+--------------------------------------------------------------------------------
+- Infinite horizontal scroll animation (25s loop)
+- Content: OpenClaw command examples
+  "> remove facebook and instagram // > scan for tracking apps // 
+   > what is com.miui.analytics // > backup everything // 
+   > list disabled packages // > show system bloat on Pixel 7 //"
+- Monospace text, red color (#D33C34)
+
+6. FEATURE MATRIX SECTION
+--------------------------------------------------------------------------------
+Header:
+- Tag: "CORE_MODULES"
+- Title: "FEATURE MATRIX"
+- Subtitle: "Chat-first Android debloater powered by Perplexity AI. 
+            Natural language commands over ADB. No manual package hunting."
+
+Grid: 3 columns × 2 rows
+
+001 NATURAL_LANGUAGE
+    "Type commands like 'remove facebook' — no manual package hunting"
+    Icon: MessageSquare
+
+002 AI_SAFETY_ANALYSIS
+    "Perplexity rates package risk levels before you nuke anything"
+    Icon: Shield
+
+003 ACTION_MODE
+    "Toggle between Advisor Mode and direct ADB execution"
+    Icon: Zap
+
+004 SMART_BACKUP
+    "Creates secure package vaults before destructive ops"
+    Icon: Lock
+
+005 CROSS_PLATFORM
+    "Electron shell runs on Windows, Mac, and Linux"
+    Icon: MonitorSmartphone
+
+006 REALTIME_ADB
+    "Auto-detects any connected Android device over USB"
+    Icon: Usb
+
+7. APP PREVIEW SECTION (SYSTEM)
+--------------------------------------------------------------------------------
+Layout: 7/5 column split
+
+Left (7 cols):
+- Interface preview with desktop.png image
+- Window chrome with red/gray dots
+
+Right (5 cols):
+- Tag: "ARCHITECTURE"
+- Title: "ELECTRON → ADB → ANDROID"
+- Subtitle: "Desktop shell routes commands through OpenClaw NLP 
+            to Python backend → ADB → your connected device."
+- Feature list:
+  • Perplexity AI explains every package
+  • Action Mode for direct ADB execution
+  • Automatic backup vaults before removal
+  • Works with any Android device via USB
+- CTA: [GET_STARTED]
+
+8. SUPPORT SECTION
+--------------------------------------------------------------------------------
+Layout: 50/50 split
+
+Left:
+- Tag: "COMMUNITY"
+- Title: "RECLAIM YOUR PHONE"
+- Subtitle: "Join Android power users removing manufacturer 
+            bloatware and tracking apps. Get support. Share configs."
+- CTAs: [DOWNLOAD_NOW] [JOIN_DISCORD]
+
+Right (stacked cards):
+- DOCUMENTATION: "ADB commands, package lists, safety guides"
+- AI_ASSISTANCE: "Perplexity answers your Android questions"
+- REGULAR_UPDATES: "New bloatware signatures and device support"
+
+9. FOOTER
+--------------------------------------------------------------------------------
+- Logo + copyright
+- Link columns: RESOURCES, COMMUNITY, LEGAL
+- Bottom bar: "DESKTOP_TO_ANDROID_AI_DEBLOATER" + STATUS/HELP/CONTACT links
+
+================================================================================
+                           INTERACTIVE ELEMENTS
+================================================================================
+
+BUTTONS
+--------------------------------------------------------------------------------
+.btn-brutal (Primary):
+- Red background (#D33C34)
+- White text, uppercase, monospace
+- Hard border, no radius
+- CSS glitch effect on hover using ::before pseudo-element
+- Click sound feedback (base64 WAV)
+
+.btn-outline-brutal (Secondary):
+- Transparent background
+- 1px white border
+- Hover: white background, black text
+
+ANIMATIONS
+--------------------------------------------------------------------------------
+- snapIn: opacity 0→1, y 20→0, 0.2s duration, circOut easing
+- slideSnap: opacity 0→1, x -20→0, 0.2s duration
+- Staggered delays: i * 0.05s per element
+- Marquee: 25s infinite linear scroll
+- Chat terminal: 1.2s between messages, 3s pause before loop
+
+MICRO-INTERACTIONS
+--------------------------------------------------------------------------------
+- Boot sequence typewriter effect
+- HUD cursor crosshair transformation
+- Button glitch effect (skewX animation)
+- Click sound on button press (0.3 volume)
+- Arrow icon translate on hover
+
+================================================================================
+                              CSS CLASSES
+================================================================================
+
+Layout:
+- .brutal-cell: border-bottom/right with hover background
+- .nav-brutal: fixed nav with black bg
+- .section-divider: 1px horizontal line
+- .hero-grid-bg: 60px grid pattern background
+
+Typography:
+- .display-huge: clamp(2.5rem, 8vw, 6rem) monospace
+- .label-mono: 0.65rem uppercase tracking-wide
+- .terminal-text: 0.75rem gray monospace
+- .text-gradient-brutal: red linear gradient
+
+Status/Indicators:
+- .status-dot: 6px green circle with pulse animation
+- .status-healthy: green text (#71A1A1)
+- .hex-display: orange (#f97316) data stream
+
+Effects:
+- .boot-screen: full-screen black terminal
+- .boot-flash: white transition overlay
+- .crosshair: custom cursor with lines
+- .marquee-container: overflow hidden, red bg
+- .glitch: button hover skew animation
+
+================================================================================
+                              KEY MESSAGING
+================================================================================
+
+PRIMARY VALUE PROP:
+"The first AI-powered Android debloater. Connect via USB. Chat with Perplexity. 
+Nuke bloatware with plain English."
+
+TARGET AUDIENCE:
+Android power users who want to remove manufacturer bloatware, tracking apps, 
+and system junk from their phones without learning ADB commands.
+
+PRODUCT ARCHITECTURE:
+Electron Shell → OpenClaw NLP → Python Backend → ADB → Android Device
+
+DIFFERENTIATION:
+- Natural language commands (not memorizing package names)
+- AI safety analysis before removal
+- Cross-platform desktop app
+- Automatic backups
+
+================================================================================
+                              BUILD STATUS
+================================================================================
+
+✓ TypeScript compilation: PASS
+✓ Next.js build: PASS
+✓ Static export: PASS
+✓ No ESLint errors
+
+Last build: February 28, 2026
+
+================================================================================
+                              FILE STRUCTURE
+================================================================================
+
+src/app/
+├── globals.css      (~574 lines) - Design system, animations, utilities
+├── layout.tsx       - Root layout with metadata
+└── page.tsx         (~814 lines) - Main landing page components
+
+public/
+└── desktop.png      - App interface screenshot
+
+Components in page.tsx:
+- BootSequence
+- HUDCursor
+- MarqueeTicker
+- DataStream
+- ChatTerminal
+- ActionModeToggle (NEW)
+- Home (main export)
+
+================================================================================
+                     ADDITIONAL UI ENHANCEMENTS (v3.1.0)
+================================================================================
+
+1. GITHUB LEGITIMACY BADGE (Hero Section)
+--------------------------------------------------------------------------------
+Location: Above "TALK TO YOUR PHONE" headline
+Design: 1px border cell with GitHub icon
+Content: 
+- GitHub logo icon
+- Text: "OPEN_SOURCE_REPOSITORY"
+- Star count: "★ 1.2K" (orange)
+Interaction: Hover → white background shift
+Link: https://github.com/debloat-ai/debloat
+
+Hero CTA buttons updated:
+- [★ STAR_ON_GITHUB] (primary)
+- [v3.1.0_RELEASE] (outline)
+
+2. ACTION MODE TOGGLE (Feature Section)
+--------------------------------------------------------------------------------
+Location: Feature card #003 ACTION_MODE
+Component: ActionModeToggle (functional CSS toggle switch)
+
+Toggle OFF state:
+- Muted gray appearance (opacity 60%)
+- Toggle knob: gray (#333)
+- Text: "MODE: ADVISORY_ONLY // NO SYSTEM CHANGES"
+
+Toggle ON state:
+- Card border snaps to #D33C34 (red), 2px
+- Toggle knob: red (#D33C34)
+- Background: red tint
+- Text: "MODE: LETHAL // READY TO PURGE PACKAGES"
+
+CSS Implementation:
+- 14px × 7px toggle container
+- 5px × 5px sliding knob
+- 200ms transition duration
+- State managed in Home component
+
+3. API KEY WARNING BANNER (Support Section)
+--------------------------------------------------------------------------------
+Location: Above download buttons in Support section
+Design: Full-width banner
+Background: #f97316 (Orange - high contrast)
+Text Color: #030303 (Black)
+Content:
+"WARNING: DEBLOAT_AI REQUIRES A PERPLEXITY API KEY FOR 
+NATURAL LANGUAGE PROCESSING. ADB CORE FUNCTIONS REMAIN 
+AVAILABLE OFFLINE."
+Icon: AlertTriangle (Lucide)
+
+4. OS-SPECIFIC DOWNLOAD ARCHITECTURE (Support Section)
+--------------------------------------------------------------------------------
+Location: Replaced generic [DOWNLOAD_NOW] button
+Design: 3-part brutalist button group
+
+Buttons:
+[ WIN .EXE ]        - Windows executable
+[ LINUX .APPIMAGE ] - Linux AppImage
+[ MAC .DMG ]        - macOS disk image
+
+Styling:
+- flex-1 distribution (equal width)
+- btn-brutal class (red bg, glitch hover effect)
+- Responsive: stacks vertically on mobile
+
+================================================================================
+                         OPEN SOURCE REQUIREMENTS
+================================================================================
+
+BYOK (Bring Your Own Key):
+- Users must supply their own Perplexity API key
+- Warning banner prominently displayed before download
+- ADB fallback mode available for offline use
+
+GitHub Integration:
+- Repository badge in hero section
+- Star count display (can be made dynamic)
+- Direct link to GitHub repo
+- v3.1.0 release tag visible
+
+License: Open source (see GitHub)
+
+================================================================================
+                              NEW IMPORTS
+================================================================================
+
+Lucide React icons added:
+- Github
+- Star  
+- AlertTriangle
+
+================================================================================
+                                 END REPORT
+================================================================================
