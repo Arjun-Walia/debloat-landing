@@ -2,6 +2,9 @@
 
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { TextType } from "@/components/TextType";
+import { PixelTransition } from "@/components/PixelTransition";
+import { CryptoReveal } from "@/components/CryptoReveal";
 import { 
   Zap, 
   Shield, 
@@ -169,12 +172,12 @@ const slideSnap = {
 
 // Feature data
 const features = [
-  { id: "001", icon: MessageSquare, title: "NATURAL_LANGUAGE", desc: "Type commands like 'remove facebook' — no manual package hunting", hasToggle: false },
-  { id: "002", icon: Shield, title: "AI_SAFETY_ANALYSIS", desc: "Perplexity rates package risk levels before you nuke anything", hasToggle: false },
-  { id: "003", icon: Zap, title: "ACTION_MODE", desc: "Toggle between Advisor Mode and direct ADB execution", hasToggle: true },
-  { id: "004", icon: Lock, title: "SMART_BACKUP", desc: "Creates secure package vaults before destructive ops", hasToggle: false },
-  { id: "005", icon: MonitorSmartphone, title: "CROSS_PLATFORM", desc: "Electron shell runs on Windows, Mac, and Linux", hasToggle: false },
-  { id: "006", icon: Usb, title: "REALTIME_ADB", desc: "Auto-detects any connected Android device over USB", hasToggle: false },
+  { id: "001", icon: MessageSquare, title: "NATURAL_LANGUAGE", desc: "Type commands like 'remove facebook' — no manual package hunting", hoverInfo: "Examples: 'remove all meta apps', 'what does this package do?', 'show battery drainers'", hasToggle: false },
+  { id: "002", icon: Shield, title: "AI_SAFETY_ANALYSIS", desc: "Perplexity rates package risk levels before you nuke anything", hoverInfo: "Risk levels: SAFE / CAUTION / DANGER — AI explains what breaks if removed", hasToggle: false },
+  { id: "003", icon: Zap, title: "ACTION_MODE", desc: "Toggle between Advisor Mode and direct ADB execution", hoverInfo: "Advisor = suggestions only. Lethal = executes ADB commands directly", hasToggle: true },
+  { id: "004", icon: Lock, title: "SMART_BACKUP", desc: "Creates secure package vaults before destructive ops", hoverInfo: "Auto-restore available. Backups stored in /debloat/vaults/ with timestamps", hasToggle: false },
+  { id: "005", icon: MonitorSmartphone, title: "CROSS_PLATFORM", desc: "Electron shell runs on Windows, Mac, and Linux", hoverInfo: "Same UI everywhere. ADB drivers bundled. No manual setup required", hasToggle: false },
+  { id: "006", icon: Usb, title: "REALTIME_ADB", desc: "Auto-detects any connected Android device over USB", hoverInfo: "Plug in any Android. USB debugging required. Works with all manufacturers", hasToggle: false },
 ];
 
 // Simulated hex data stream
@@ -356,16 +359,22 @@ export default function Home() {
             
             {/* Nav Links */}
             <div className="hidden md:flex items-center">
-              {["FEATURES", "SYSTEM", "DOCS", "SUPPORT"].map((item) => (
+              {["FEATURES", "SYSTEM", "SUPPORT"].map((item) => (
                 <a 
                   key={item}
                   href={`#${item.toLowerCase()}`} 
-                  className="px-6 py-4 border-r border-[#1a1a1a] text-[#555] hover:text-[#D33C34] hover:bg-[#050505] transition-all duration-100 font-mono text-xs tracking-widest"
+                  className="docs-nav-link px-6 py-4 border-r border-[#1a1a1a] text-[#555] hover:text-[#D33C34] hover:bg-[#050505] transition-all duration-100 font-mono text-xs tracking-widest"
                 >
                   {item}
                 </a>
               ))}
-              <button className="btn-brutal ml-4 mr-6" data-text="DOWNLOAD" onClick={playClickSound}>
+              <a 
+                href="/docs"
+                className="docs-nav-link px-6 py-4 border-r border-[#1a1a1a] text-[#555] hover:text-[#D33C34] hover:bg-[#050505] transition-all duration-100 font-mono text-xs tracking-widest"
+              >
+                DOCS
+              </a>
+              <button className="btn-brutal terminal-focus ml-4 mr-6" data-text="DOWNLOAD" onClick={playClickSound}>
                 DOWNLOAD
               </button>
             </div>
@@ -388,7 +397,7 @@ export default function Home() {
             animate={{ opacity: 1, height: "auto" }}
             transition={{ duration: 0.15 }}
           >
-            {["FEATURES", "SYSTEM", "DOCS", "SUPPORT"].map((item) => (
+            {["FEATURES", "SYSTEM", "SUPPORT"].map((item) => (
               <a 
                 key={item}
                 href={`#${item.toLowerCase()}`} 
@@ -397,6 +406,12 @@ export default function Home() {
                 {item}
               </a>
             ))}
+            <a 
+              href="/docs"
+              className="block px-6 py-4 border-b border-[#1a1a1a] text-[#555] hover:text-[#D33C34] font-mono text-xs tracking-widest"
+            >
+              DOCS
+            </a>
             <div className="p-6">
               <button className="btn-brutal w-full" data-text="DOWNLOAD" onClick={playClickSound}>DOWNLOAD</button>
             </div>
@@ -464,36 +479,58 @@ export default function Home() {
                 DESKTOP → ANDROID_VIA_ADB
               </motion.span>
 
-              <motion.h1
+              <motion.div
                 variants={snapIn}
                 custom={2}
                 initial="hidden"
                 animate="visible"
-                className="font-mono text-5xl lg:text-7xl font-bold text-white mb-1 tracking-tight"
               >
-                TALK TO
-              </motion.h1>
+                <CryptoReveal
+                  text="TALK TO"
+                  as="h1"
+                  className="font-mono text-5xl lg:text-7xl font-bold text-white mb-1 tracking-tight"
+                  duration={600}
+                />
+              </motion.div>
               
-              <motion.h1
+              <motion.div
                 variants={snapIn}
                 custom={3}
                 initial="hidden"
                 animate="visible"
-                className="font-mono text-5xl lg:text-7xl font-bold text-gradient-brutal mb-6"
               >
-                YOUR PHONE
-              </motion.h1>
+                <CryptoReveal
+                  text="YOUR PHONE"
+                  as="h1"
+                  className="font-mono text-5xl lg:text-7xl font-bold text-gradient-brutal mb-6"
+                  delay={300}
+                  duration={800}
+                />
+              </motion.div>
 
-              <motion.p
+              <motion.div
                 variants={snapIn}
                 custom={4}
                 initial="hidden"
                 animate="visible"
-                className="text-[#555] text-sm lg:text-base max-w-md mb-6 font-mono leading-relaxed"
+                className="text-[#555] text-sm lg:text-base max-w-md mb-6 font-mono leading-relaxed min-h-[4rem]"
               >
-                The first AI-powered Android debloater. Connect via USB. 
-                Chat with Perplexity. Nuke bloatware with plain English.
-              </motion.p>
+                <TextType
+                  text={[
+                    "The first AI-powered Android debloater.",
+                    "Connect via USB.",
+                    "Chat with Perplexity.",
+                    "Nuke bloatware with plain English."
+                  ]}
+                  typingSpeed={50}
+                  pauseDuration={1500}
+                  deletingSpeed={30}
+                  showCursor
+                  cursorCharacter="_"
+                  cursorBlinkDuration={0.5}
+                  loop
+                />
+              </motion.div>
 
               <motion.div
                 variants={snapIn}
@@ -572,7 +609,8 @@ export default function Home() {
             <div className="col-span-12 md:col-span-4 p-8 border-r border-[#1a1a1a]">
               <span className="label-mono text-[#D33C34] block mb-4">CORE_MODULES</span>
               <h2 className="font-mono text-4xl md:text-5xl font-bold text-white tracking-brutal leading-brutal">
-                FEATURE<br />MATRIX
+                <CryptoReveal text="FEATURE" as="span" className="block" duration={500} />
+                <CryptoReveal text="MATRIX" as="span" className="block" delay={200} duration={500} />
               </h2>
             </div>
             <div className="col-span-12 md:col-span-8 p-8 flex items-end">
@@ -593,26 +631,61 @@ export default function Home() {
                 viewport={{ once: true, margin: "-50px" }}
                 variants={snapIn}
                 custom={i}
-                className={`brutal-cell p-8 cursor-pointer group transition-all duration-200 ${
+                className={`brutal-cell scanline-sweep cursor-pointer group transition-all duration-200 ${
                   feature.hasToggle && actionModeOn ? 'border-[#D33C34] border-2' : ''
                 } ${feature.hasToggle && !actionModeOn ? 'opacity-60' : ''}`}
               >
-                <div className="flex items-start justify-between mb-6">
-                  <feature.icon className={`w-6 h-6 ${feature.hasToggle && actionModeOn ? 'text-[#D33C34]' : 'text-[#D33C34]'}`} />
-                  <span className="label-mono text-[#333]">{feature.id}</span>
-                </div>
-                <h3 className="font-mono text-lg text-white font-bold mb-2 tracking-tight">
-                  {feature.title}
-                </h3>
-                <p className="text-[#555] text-sm font-mono">
-                  {feature.desc}
-                </p>
-                {feature.hasToggle && (
-                  <ActionModeToggle 
-                    isOn={actionModeOn} 
-                    onToggle={() => setActionModeOn(!actionModeOn)} 
-                  />
-                )}
+                <PixelTransition
+                  gridSize={12}
+                  pixelColor="#D33C34"
+                  animationStepDuration={0.6}
+                  aspectRatio="55%"
+                  style={{ backgroundColor: '#030303' }}
+                  firstContent={
+                    <div className="p-6 h-full flex flex-col">
+                      <div className="flex items-start justify-between mb-4">
+                        <feature.icon className={`w-5 h-5 ${feature.hasToggle && actionModeOn ? 'text-[#D33C34]' : 'text-[#D33C34]'}`} />
+                        <span className="label-mono text-[#333]">{feature.id}</span>
+                      </div>
+                      <h3 className="font-mono text-base text-white font-bold mb-2 tracking-tight">
+                        {feature.title}
+                      </h3>
+                      <p className="text-[#555] text-xs font-mono flex-grow">
+                        {feature.desc}
+                      </p>
+                      {feature.hasToggle && (
+                        <div className="relative z-50" onClick={(e) => e.stopPropagation()}>
+                          <ActionModeToggle 
+                            isOn={actionModeOn} 
+                            onToggle={() => setActionModeOn(!actionModeOn)} 
+                          />
+                        </div>
+                      )}
+                    </div>
+                  }
+                  secondContent={
+                    <div className="p-6 h-full flex flex-col bg-[#0a0a0a]">
+                      <div className="flex items-start justify-between mb-3">
+                        <feature.icon className="w-5 h-5 text-[#D33C34]" />
+                        <span className="label-mono text-[#71A1A1]">MORE_INFO</span>
+                      </div>
+                      <h3 className="font-mono text-base text-white font-bold mb-2 tracking-tight">
+                        {feature.title}
+                      </h3>
+                      <p className="text-[#71A1A1] text-xs font-mono mb-3 leading-relaxed">
+                        {feature.hoverInfo}
+                      </p>
+                      {feature.hasToggle && (
+                        <div className="mt-auto relative z-50 pointer-events-auto" onClick={(e) => e.stopPropagation()}>
+                          <ActionModeToggle 
+                            isOn={actionModeOn} 
+                            onToggle={() => setActionModeOn(!actionModeOn)} 
+                          />
+                        </div>
+                      )}
+                    </div>
+                  }
+                />
               </motion.div>
             ))}
           </div>
@@ -722,7 +795,8 @@ export default function Home() {
             <div className="col-span-12 lg:col-span-6 p-8 lg:p-16 border-r border-[#1a1a1a]">
               <span className="label-mono text-[#D33C34] block mb-4">COMMUNITY</span>
               <h2 className="font-mono text-4xl md:text-5xl font-bold text-white tracking-brutal leading-brutal mb-8">
-                RECLAIM<br />YOUR PHONE
+                <CryptoReveal text="RECLAIM" as="span" className="block" duration={600} />
+                <CryptoReveal text="YOUR PHONE" as="span" className="block" delay={250} duration={700} />
               </h2>
               <p className="text-[#555] font-mono text-sm leading-relaxed mb-8 max-w-md">
                 Join Android power users removing manufacturer 
@@ -733,13 +807,13 @@ export default function Home() {
               <div className="mb-8">
                 <span className="label-mono block mb-4">DOWNLOAD_FOR_YOUR_PLATFORM</span>
                 <div className="flex flex-col sm:flex-row gap-2">
-                  <button className="btn-brutal flex-1" data-text="WIN_.EXE" onClick={playClickSound}>
+                  <button className="btn-brutal terminal-focus flex-1" data-text="WIN_.EXE" onClick={playClickSound}>
                     WIN .EXE
                   </button>
-                  <button className="btn-brutal flex-1" data-text="LINUX_.APPIMAGE" onClick={playClickSound}>
+                  <button className="btn-brutal terminal-focus flex-1" data-text="LINUX_.APPIMAGE" onClick={playClickSound}>
                     LINUX .APPIMAGE
                   </button>
-                  <button className="btn-brutal flex-1" data-text="MAC_.DMG" onClick={playClickSound}>
+                  <button className="btn-brutal terminal-focus flex-1" data-text="MAC_.DMG" onClick={playClickSound}>
                     MAC .DMG
                   </button>
                 </div>

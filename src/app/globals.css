@@ -572,3 +572,158 @@ h1, h2, h3, h4, h5, h6 {
     transform: translate(0);
   }
 }
+
+/* ========================================
+   CRT HARD-INVERSION FLASH - 50ms ELECTRICAL SHORT
+   ======================================== */
+.btn-brutal:active,
+.btn-outline-brutal:active {
+  filter: invert(1);
+  transition: none !important;
+}
+
+.brutal-cell:active {
+  filter: invert(1);
+  transition: none !important;
+}
+
+/* ========================================
+   SCANLINE SWEEP OVERLAY - FEATURE CARDS
+   ======================================== */
+.scanline-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.scanline-sweep::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #D33C34;
+  opacity: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.scanline-sweep:hover::before {
+  animation: scanline-sweep 0.3s linear forwards;
+}
+
+@keyframes scanline-sweep {
+  0% {
+    top: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+/* ========================================
+   TERMINAL BLOCK FOCUS STATE - BLINKING CURSOR
+   ======================================== */
+.terminal-focus:focus-visible {
+  outline: 1px solid #D33C34;
+  outline-offset: 2px;
+}
+
+.terminal-focus:focus-visible::after {
+  content: '█';
+  margin-left: 4px;
+  color: #71A1A1;
+  animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Navigation links with terminal focus */
+.nav-link-brutal {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-link-brutal:focus-visible {
+  outline: none;
+}
+
+.nav-link-brutal:focus-visible::after {
+  content: '█';
+  margin-left: 2px;
+  color: #71A1A1;
+  font-size: 0.8em;
+  animation: cursor-blink 1s step-end infinite;
+}
+
+/* ========================================
+   DOCS PAGE - SIDEBAR NAVIGATION
+   ======================================== */
+.docs-sidebar-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.docs-sidebar-link:hover::after,
+.docs-sidebar-link:focus-visible::after {
+  content: '█';
+  margin-left: auto;
+  padding-left: 8px;
+  color: #71A1A1;
+  font-size: 0.7em;
+  animation: cursor-blink 1s step-end infinite;
+}
+
+.docs-sidebar-link:focus-visible {
+  outline: none;
+  border-color: #D33C34 !important;
+}
+
+/* Docs nav links with cursor */
+.docs-nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.docs-nav-link:hover::after,
+.docs-nav-link:focus-visible::after {
+  content: '█';
+  margin-left: 4px;
+  color: #71A1A1;
+  font-size: 0.7em;
+  animation: cursor-blink 1s step-end infinite;
+}
+
+.docs-nav-link:focus-visible {
+  outline: none;
+  background-color: #050505;
+}
+
+/* ========================================
+   DOCS PAGE - TABLE ROW CRT FLASH
+   ======================================== */
+.docs-table-row:active {
+  filter: invert(1);
+  transition: none !important;
+}
+
+/* ========================================
+   DOCS PAGE - CARDS & ARCHITECTURE
+   ======================================== */
+.docs-card:active,
+.docs-arch-card:active {
+  filter: invert(1);
+  transition: none !important;
+}
