@@ -100,6 +100,58 @@ const sidebarNav = [
   { id: 'safety', label: 'SAFETY_GUIDE', num: '04' },
 ];
 
+// Custom HUD Cursor Component
+function HUDCursor() {
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const [isHovering, setIsHovering] = useState(false);
+
+  useEffect(() => {
+    const moveCursor = (e: MouseEvent) => {
+      if (cursorRef.current) {
+        cursorRef.current.style.left = `${e.clientX}px`;
+        cursorRef.current.style.top = `${e.clientY}px`;
+      }
+    };
+
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        target.closest('button') ||
+        target.closest('a') ||
+        target.closest('.brutal-cell') ||
+        target.tagName === 'BUTTON' ||
+        target.tagName === 'A'
+      ) {
+        setIsHovering(true);
+      } else {
+        setIsHovering(false);
+      }
+    };
+
+    window.addEventListener('mousemove', moveCursor);
+    window.addEventListener('mouseover', handleMouseOver);
+
+    return () => {
+      window.removeEventListener('mousemove', moveCursor);
+      window.removeEventListener('mouseover', handleMouseOver);
+    };
+  }, []);
+
+  return (
+    <div 
+      ref={cursorRef} 
+      className={`crosshair ${isHovering ? 'hover' : ''}`}
+    >
+      {!isHovering && (
+        <>
+          <div className="crosshair-line crosshair-h" />
+          <div className="crosshair-line crosshair-v" />
+        </>
+      )}
+    </div>
+  );
+}
+
 export default function DocsPage() {
   const [activeSection, setActiveSection] = useState('quick-start');
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -132,6 +184,7 @@ export default function DocsPage() {
 
   return (
     <main className="min-h-screen bg-[#030303] overflow-x-hidden">
+      <HUDCursor />
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 nav-brutal">
         <div className="max-w-[1440px] mx-auto">

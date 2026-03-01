@@ -452,7 +452,7 @@ export default function Home() {
             <div className="flex flex-col justify-center p-6 lg:p-12 border-r border-[#1a1a1a]">
               {/* GitHub Badge */}
               <motion.a
-                href="https://github.com/debloat-ai/debloat"
+                href="https://github.com/abhishek112007/debloat-ai"
                 target="_blank"
                 rel="noopener noreferrer"
                 variants={snapIn}

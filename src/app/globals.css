@@ -24,6 +24,7 @@
 
 * {
   box-sizing: border-box;
+  cursor: none !important;
 }
 
 html {
@@ -36,6 +37,12 @@ body {
   color: #e5e5e5;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  cursor: none;
+}
+
+/* Hide cursor on all interactive elements */
+a, button, input, textarea, select, [role="button"] {
+  cursor: none !important;
 }
 
 /* ========================================
