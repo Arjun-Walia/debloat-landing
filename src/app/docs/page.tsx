@@ -2,21 +2,13 @@
 
 import { motion } from 'framer-motion';
 import { CryptoReveal } from '@/components/CryptoReveal';
+import Link from 'next/link';
 import { 
   Zap, 
-  Terminal, 
-  Cpu, 
   ArrowRight, 
   Menu, 
   X,
-  Download,
-  Usb,
-  MessageSquare,
   Shield,
-  RefreshCw,
-  Server,
-  Smartphone,
-  Bot
 } from 'lucide-react';
 import { useState, useEffect, useRef, useCallback } from 'react';
 
@@ -190,27 +182,27 @@ export default function DocsPage() {
         <div className="max-w-[1440px] mx-auto">
           <div className="flex justify-between items-center border-b border-[#1a1a1a]">
             {/* Logo */}
-            <a href="/" className="flex items-center gap-4 px-6 py-4 border-r border-[#1a1a1a] hover:bg-[#050505] transition-colors">
+            <Link href="/" className="flex items-center gap-4 px-6 py-4 border-r border-[#1a1a1a] hover:bg-[#050505] transition-colors">
               <div className="w-8 h-8 bg-[#D33C34] flex items-center justify-center">
                 <Zap className="w-4 h-4 text-[#030303]" />
               </div>
               <span className="font-mono text-white text-sm font-bold tracking-tight">DEBLOAT_AI</span>
-            </a>
+            </Link>
             
             {/* Nav Links */}
             <div className="hidden md:flex items-center">
-              <a href="/#features" className="docs-nav-link px-6 py-4 border-r border-[#1a1a1a] text-[#555] hover:text-[#D33C34] hover:bg-[#050505] transition-all duration-100 font-mono text-xs tracking-widest">
+              <Link href="/#features" className="docs-nav-link px-6 py-4 border-r border-[#1a1a1a] text-[#555] hover:text-[#D33C34] hover:bg-[#050505] transition-all duration-100 font-mono text-xs tracking-widest">
                 FEATURES
-              </a>
-              <a href="/#system" className="docs-nav-link px-6 py-4 border-r border-[#1a1a1a] text-[#555] hover:text-[#D33C34] hover:bg-[#050505] transition-all duration-100 font-mono text-xs tracking-widest">
+              </Link>
+              <Link href="/#system" className="docs-nav-link px-6 py-4 border-r border-[#1a1a1a] text-[#555] hover:text-[#D33C34] hover:bg-[#050505] transition-all duration-100 font-mono text-xs tracking-widest">
                 SYSTEM
-              </a>
+              </Link>
               <span className="px-6 py-4 border-r border-[#1a1a1a] text-[#D33C34] bg-[#050505] font-mono text-xs tracking-widest">
                 DOCS
               </span>
-              <a href="/#support" className="docs-nav-link px-6 py-4 border-r border-[#1a1a1a] text-[#555] hover:text-[#D33C34] hover:bg-[#050505] transition-all duration-100 font-mono text-xs tracking-widest">
+              <Link href="/#support" className="docs-nav-link px-6 py-4 border-r border-[#1a1a1a] text-[#555] hover:text-[#D33C34] hover:bg-[#050505] transition-all duration-100 font-mono text-xs tracking-widest">
                 SUPPORT
-              </a>
+              </Link>
               <button className="btn-brutal terminal-focus ml-4 mr-6" data-text="DOWNLOAD" onClick={playClickSound}>
                 DOWNLOAD
               </button>
@@ -547,9 +539,9 @@ export default function DocsPage() {
                   <span className="font-mono text-xs text-[#555]">DEBLOAT_AI // DOCUMENTATION v3.1.0</span>
                 </div>
                 <div className="flex gap-6">
-                  <a href="/" className="font-mono text-xs text-[#555] hover:text-[#D33C34] transition-colors">HOME</a>
-                  <a href="/#features" className="font-mono text-xs text-[#555] hover:text-[#D33C34] transition-colors">FEATURES</a>
-                  <a href="/#support" className="font-mono text-xs text-[#555] hover:text-[#D33C34] transition-colors">SUPPORT</a>
+                  <Link href="/" className="font-mono text-xs text-[#555] hover:text-[#D33C34] transition-colors">HOME</Link>
+                  <Link href="/#features" className="font-mono text-xs text-[#555] hover:text-[#D33C34] transition-colors">FEATURES</Link>
+                  <Link href="/#support" className="font-mono text-xs text-[#555] hover:text-[#D33C34] transition-colors">SUPPORT</Link>
                 </div>
               </div>
             </div>

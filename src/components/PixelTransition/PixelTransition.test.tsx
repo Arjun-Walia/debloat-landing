@@ -8,7 +8,7 @@ jest.mock('gsap', () => {
   const mockKillTweensOf = jest.fn();
   const mockSet = jest.fn();
   const mockTo = jest.fn();
-  const mockDelayedCall = jest.fn((delay, callback) => {
+  const mockDelayedCall = jest.fn((delay: number, callback: () => void) => {
     // Return a mock tween object with a kill method
     return {
       kill: jest.fn()
@@ -29,24 +29,24 @@ jest.mock('gsap', () => {
 });
 
 describe('PixelTransition', () => {
-  let originalTouchStart: any;
-  let originalMaxTouchPoints: any;
+  let originalTouchStart: unknown;
+  let originalMaxTouchPoints: number | undefined;
 
   beforeEach(() => {
     jest.clearAllMocks();
 
     // Save originals
-    originalTouchStart = (window as any).ontouchstart;
+    originalTouchStart = (window as { ontouchstart?: unknown }).ontouchstart;
     originalMaxTouchPoints = navigator.maxTouchPoints;
 
     // Reset touch variables to false defaults
-    delete (window as any).ontouchstart;
+    delete (window as { ontouchstart?: unknown }).ontouchstart;
     Object.defineProperty(navigator, 'maxTouchPoints', { value: 0, configurable: true });
 
     // Reset matchMedia mock to default (non-touch)
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
-      value: jest.fn().mockImplementation(query => ({
+      value: jest.fn().mockImplementation(() => ({
         matches: false,
       })),
     });
@@ -55,7 +55,7 @@ describe('PixelTransition', () => {
   afterEach(() => {
     // Restore originals
     if (originalTouchStart !== undefined) {
-      (window as any).ontouchstart = originalTouchStart;
+      (window as { ontouchstart?: unknown }).ontouchstart = originalTouchStart;
     }
     Object.defineProperty(navigator, 'maxTouchPoints', { value: originalMaxTouchPoints, configurable: true });
   })
@@ -116,7 +116,7 @@ describe('PixelTransition', () => {
     // Mock matchMedia to simulate a touch device before rendering
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
-      value: jest.fn().mockImplementation(query => ({
+      value: jest.fn().mockImplementation(() => ({
         matches: true, // is a touch device
       })),
     });
@@ -192,9 +192,9 @@ describe('PixelTransition', () => {
 
   it('updates the active state after the delay', () => {
     jest.useFakeTimers();
-    let delayedCallback: Function | null = null;
+    let delayedCallback: (() => void) | null = null;
 
-    (gsap.delayedCall as jest.Mock).mockImplementation((delay, callback) => {
+    (gsap.delayedCall as jest.Mock).mockImplementation((delay: number, callback: () => void) => {
       delayedCallback = callback;
       return { kill: jest.fn() };
     });
@@ -213,7 +213,7 @@ describe('PixelTransition', () => {
     // We manually invoke the callback that gsap.delayedCall would have executed
     if (delayedCallback) {
       act(() => {
-        (delayedCallback as Function)();
+        (delayedCallback as () => void)();
       });
     }
 

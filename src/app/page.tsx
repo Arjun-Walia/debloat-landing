@@ -9,7 +9,6 @@ import {
   Zap, 
   Shield, 
   Cpu, 
-  Trash2, 
   MessageSquare, 
   Lock, 
   RefreshCw, 
@@ -20,7 +19,6 @@ import {
   Smartphone,
   Usb,
   Bot,
-  Server,
   MonitorSmartphone,
   Github,
   Star,
@@ -828,7 +826,7 @@ export default function Home() {
                 { icon: Terminal, title: "DOCUMENTATION", desc: "ADB commands, package lists, safety guides" },
                 { icon: Shield, title: "AI_ASSISTANCE", desc: "Perplexity answers your Android questions" },
                 { icon: RefreshCw, title: "REGULAR_UPDATES", desc: "New bloatware signatures and device support" },
-              ].map((item, i) => (
+              ].map((item) => (
                 <div 
                   key={item.title}
                   className="brutal-cell p-8 flex items-start gap-6"
