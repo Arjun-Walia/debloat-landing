@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { TextType } from "@/components/TextType";
 import { PixelTransition } from "@/components/PixelTransition";
@@ -199,11 +200,14 @@ function DataStream() {
   const [lines, setLines] = useState<string[]>([]);
   
   useEffect(() => {
-    const initial = Array(8).fill(0).map(() => generateHexLine());
-    setLines(initial);
+    let currentLines = Array(8).fill(0).map(() => generateHexLine());
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLines(currentLines);
     
     const interval = setInterval(() => {
-      setLines(prev => [...prev.slice(1), generateHexLine()]);
+      currentLines = [...currentLines.slice(1), generateHexLine()];
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setLines(currentLines);
     }, 200);
     
     return () => clearInterval(interval);
@@ -368,20 +372,20 @@ export default function Home() {
             {/* Nav Links */}
             <div className="hidden md:flex items-center">
               {["FEATURES", "SYSTEM", "SUPPORT"].map((item) => (
-                <a 
+                <Link
                   key={item}
                   href={`#${item.toLowerCase()}`} 
                   className="docs-nav-link px-6 py-4 border-r border-[#1a1a1a] text-[#555] hover:text-[#D33C34] hover:bg-[#050505] transition-all duration-100 font-mono text-xs tracking-widest"
                 >
                   {item}
-                </a>
+                </Link>
               ))}
-              <a 
+              <Link
                 href="/docs"
                 className="docs-nav-link px-6 py-4 border-r border-[#1a1a1a] text-[#555] hover:text-[#D33C34] hover:bg-[#050505] transition-all duration-100 font-mono text-xs tracking-widest"
               >
                 DOCS
-              </a>
+              </Link>
               <button className="btn-brutal terminal-focus ml-4 mr-6" data-text="DOWNLOAD" onClick={playClickSound}>
                 DOWNLOAD
               </button>
@@ -406,20 +410,20 @@ export default function Home() {
             transition={{ duration: 0.15 }}
           >
             {["FEATURES", "SYSTEM", "SUPPORT"].map((item) => (
-              <a 
+              <Link
                 key={item}
                 href={`#${item.toLowerCase()}`} 
                 className="block px-6 py-4 border-b border-[#1a1a1a] text-[#555] hover:text-[#D33C34] font-mono text-xs tracking-widest"
               >
                 {item}
-              </a>
+              </Link>
             ))}
-            <a 
+            <Link
               href="/docs"
               className="block px-6 py-4 border-b border-[#1a1a1a] text-[#555] hover:text-[#D33C34] font-mono text-xs tracking-widest"
             >
               DOCS
-            </a>
+            </Link>
             <div className="p-6">
               <button className="btn-brutal w-full" data-text="DOWNLOAD" onClick={playClickSound}>DOWNLOAD</button>
             </div>
