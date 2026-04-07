@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { TextType } from "@/components/TextType";
 import { PixelTransition } from "@/components/PixelTransition";
@@ -8,8 +9,6 @@ import { CryptoReveal } from "@/components/CryptoReveal";
 import { 
   Zap, 
   Shield, 
-  Cpu, 
-  Trash2, 
   MessageSquare, 
   Lock, 
   RefreshCw, 
@@ -20,7 +19,6 @@ import {
   Smartphone,
   Usb,
   Bot,
-  Server,
   MonitorSmartphone,
   Github,
   Star,
@@ -180,36 +178,6 @@ const features = [
   { id: "006", icon: Usb, title: "REALTIME_ADB", desc: "Auto-detects any connected Android device over USB", hoverInfo: "Plug in any Android. USB debugging required. Works with all manufacturers", hasToggle: false },
 ];
 
-// Simulated hex data stream
-const generateHexLine = () => {
-  const chars = "0123456789ABCDEF";
-  return Array(32).fill(0).map(() => chars[Math.floor(Math.random() * 16)]).join("");
-};
-
-// Data stream component
-function DataStream() {
-  const [lines, setLines] = useState<string[]>([]);
-  
-  useEffect(() => {
-    const initial = Array(8).fill(0).map(() => generateHexLine());
-    setLines(initial);
-    
-    const interval = setInterval(() => {
-      setLines(prev => [...prev.slice(1), generateHexLine()]);
-    }, 200);
-    
-    return () => clearInterval(interval);
-  }, []);
-  
-  return (
-    <div className="hex-display overflow-hidden h-full">
-      {lines.map((line, i) => (
-        <div key={i} className="opacity-30">{line}</div>
-      ))}
-    </div>
-  );
-}
-
 // Chat messages for terminal
 const chatMessages = [
   { role: "USER", text: "> scan for bloatware" },
@@ -360,20 +328,20 @@ export default function Home() {
             {/* Nav Links */}
             <div className="hidden md:flex items-center">
               {["FEATURES", "SYSTEM", "SUPPORT"].map((item) => (
-                <a 
+                <Link
                   key={item}
                   href={`#${item.toLowerCase()}`} 
                   className="docs-nav-link px-6 py-4 border-r border-[#1a1a1a] text-[#555] hover:text-[#D33C34] hover:bg-[#050505] transition-all duration-100 font-mono text-xs tracking-widest"
                 >
                   {item}
-                </a>
+                </Link>
               ))}
-              <a 
+              <Link
                 href="/docs"
                 className="docs-nav-link px-6 py-4 border-r border-[#1a1a1a] text-[#555] hover:text-[#D33C34] hover:bg-[#050505] transition-all duration-100 font-mono text-xs tracking-widest"
               >
                 DOCS
-              </a>
+              </Link>
               <button className="btn-brutal terminal-focus ml-4 mr-6" data-text="DOWNLOAD" onClick={playClickSound}>
                 DOWNLOAD
               </button>
@@ -398,20 +366,20 @@ export default function Home() {
             transition={{ duration: 0.15 }}
           >
             {["FEATURES", "SYSTEM", "SUPPORT"].map((item) => (
-              <a 
+              <Link
                 key={item}
                 href={`#${item.toLowerCase()}`} 
                 className="block px-6 py-4 border-b border-[#1a1a1a] text-[#555] hover:text-[#D33C34] font-mono text-xs tracking-widest"
               >
                 {item}
-              </a>
+              </Link>
             ))}
-            <a 
+            <Link
               href="/docs"
               className="block px-6 py-4 border-b border-[#1a1a1a] text-[#555] hover:text-[#D33C34] font-mono text-xs tracking-widest"
             >
               DOCS
-            </a>
+            </Link>
             <div className="p-6">
               <button className="btn-brutal w-full" data-text="DOWNLOAD" onClick={playClickSound}>DOWNLOAD</button>
             </div>
@@ -751,9 +719,9 @@ export default function Home() {
                   "Action Mode for direct ADB execution", 
                   "Automatic backup vaults before removal",
                   "Works with any Android device via USB"
-                ].map((item, i) => (
+                ].map((item, index) => (
                   <div 
-                    key={i}
+                    key={index}
                     className="px-8 py-4 border-b border-[#1a1a1a] flex items-center gap-4 hover:bg-[#050505] transition-colors duration-100"
                   >
                     <span className="status-dot" />
@@ -828,7 +796,7 @@ export default function Home() {
                 { icon: Terminal, title: "DOCUMENTATION", desc: "ADB commands, package lists, safety guides" },
                 { icon: Shield, title: "AI_ASSISTANCE", desc: "Perplexity answers your Android questions" },
                 { icon: RefreshCw, title: "REGULAR_UPDATES", desc: "New bloatware signatures and device support" },
-              ].map((item, i) => (
+                ].map((item, index) => (
                 <div 
                   key={item.title}
                   className="brutal-cell p-8 flex items-start gap-6"
@@ -879,9 +847,9 @@ export default function Home() {
                 <ul className="space-y-2">
                   {section.links.map((link) => (
                     <li key={link}>
-                      <a href="#" className="text-[#555] hover:text-[#D33C34] font-mono text-xs transition-colors duration-100">
+                      <Link href={`/${link.toLowerCase()}`} className="text-[#555] hover:text-[#D33C34] font-mono text-xs transition-colors duration-100">
                         {link.toUpperCase()}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -894,9 +862,9 @@ export default function Home() {
             <span className="text-[#333] font-mono text-xs">DESKTOP_TO_ANDROID_AI_DEBLOATER</span>
             <div className="flex items-center gap-6">
               {["STATUS", "HELP", "CONTACT"].map((item) => (
-                <a key={item} href="#" className="text-[#333] hover:text-white font-mono text-xs transition-colors duration-100">
+                <Link key={item} href={`/${item.toLowerCase()}`} className="text-[#333] hover:text-white font-mono text-xs transition-colors duration-100">
                   {item}
-                </a>
+                </Link>
               ))}
             </div>
           </div>

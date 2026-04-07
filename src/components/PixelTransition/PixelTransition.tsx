@@ -36,9 +36,10 @@ const PixelTransition: FC<PixelTransitionProps> = ({
   const [isTouchDevice, setIsTouchDevice] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsTouchDevice(
-      'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches
-    );
+    // Avoid synchronous state updates inside useEffect to prevent cascading renders
+    const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches);
+    const timeoutId = setTimeout(() => setIsTouchDevice(isTouch), 0);
+    return () => clearTimeout(timeoutId);
   }, []);
 
   useEffect(() => {
