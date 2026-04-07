@@ -8,8 +8,6 @@ import { CryptoReveal } from "@/components/CryptoReveal";
 import { 
   Zap, 
   Shield, 
-  Cpu, 
-  Trash2, 
   MessageSquare, 
   Lock, 
   RefreshCw, 
@@ -20,7 +18,6 @@ import {
   Smartphone,
   Usb,
   Bot,
-  Server,
   MonitorSmartphone,
   Github,
   Star,
@@ -192,33 +189,6 @@ const features = [
   { id: "005", icon: MonitorSmartphone, title: "CROSS_PLATFORM", desc: "Electron shell runs on Windows, Mac, and Linux", hoverInfo: "Same UI everywhere. ADB drivers bundled. No manual setup required", hasToggle: false },
   { id: "006", icon: Usb, title: "REALTIME_ADB", desc: "Auto-detects any connected Android device over USB", hoverInfo: "Plug in any Android. USB debugging required. Works with all manufacturers", hasToggle: false },
 ];
-
-// Simulated hex data stream
-const generateHexLine = () => {
-  const chars = "0123456789ABCDEF";
-  return Array(32).fill(0).map(() => chars[Math.floor(Math.random() * 16)]).join("");
-};
-
-// Data stream component
-function DataStream() {
-  const [lines, setLines] = useState<string[]>(() => Array(8).fill(0).map(() => generateHexLine()));
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setLines(prev => [...prev.slice(1), generateHexLine()]);
-    }, 200);
-    
-    return () => clearInterval(interval);
-  }, []);
-  
-  return (
-    <div className="hex-display overflow-hidden h-full">
-      {lines.map((line, i) => (
-        <div key={i} className="opacity-30">{line}</div>
-      ))}
-    </div>
-  );
-}
 
 // Chat messages for terminal
 const chatMessages = [
@@ -838,7 +808,7 @@ export default function Home() {
                 { icon: Terminal, title: "DOCUMENTATION", desc: "ADB commands, package lists, safety guides" },
                 { icon: Shield, title: "AI_ASSISTANCE", desc: "Perplexity answers your Android questions" },
                 { icon: RefreshCw, title: "REGULAR_UPDATES", desc: "New bloatware signatures and device support" },
-              ].map((item, i) => (
+              ].map((item) => (
                 <div 
                   key={item.title}
                   className="brutal-cell p-8 flex items-start gap-6"

@@ -5,19 +5,10 @@ import Link from 'next/link';
 import { CryptoReveal } from '@/components/CryptoReveal';
 import { 
   Zap, 
-  Terminal, 
-  Cpu, 
   ArrowRight, 
   Menu, 
   X,
-  Download,
-  Usb,
-  MessageSquare,
-  Shield,
-  RefreshCw,
-  Server,
-  Smartphone,
-  Bot
+  Shield
 } from 'lucide-react';
 import { useState, useEffect, useRef, useCallback } from 'react';
 
