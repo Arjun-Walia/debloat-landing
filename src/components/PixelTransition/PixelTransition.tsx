@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useRef, useEffect, useState, CSSProperties } from 'react';
+import { useRef, useEffect, useState, CSSProperties, ReactNode, FC } from 'react';
 import { gsap } from 'gsap';
 import './PixelTransition.css';
 
 interface PixelTransitionProps {
-  firstContent: React.ReactNode | string;
-  secondContent: React.ReactNode | string;
+  firstContent: ReactNode | string;
+  secondContent: ReactNode | string;
   gridSize?: number;
   pixelColor?: string;
   animationStepDuration?: number;
@@ -16,7 +16,7 @@ interface PixelTransitionProps {
   aspectRatio?: string;
 }
 
-const PixelTransition: React.FC<PixelTransitionProps> = ({
+const PixelTransition: FC<PixelTransitionProps> = ({
   firstContent,
   secondContent,
   gridSize = 7,
