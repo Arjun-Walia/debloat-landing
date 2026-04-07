@@ -8,8 +8,6 @@ import { CryptoReveal } from "@/components/CryptoReveal";
 import { 
   Zap, 
   Shield, 
-  Cpu, 
-  Trash2, 
   MessageSquare, 
   Lock, 
   RefreshCw, 
@@ -20,7 +18,6 @@ import {
   Smartphone,
   Usb,
   Bot,
-  Server,
   MonitorSmartphone,
   Github,
   Star,
