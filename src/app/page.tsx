@@ -191,14 +191,19 @@ function DataStream() {
   const [lines, setLines] = useState<string[]>([]);
   
   useEffect(() => {
-    const initial = Array(8).fill(0).map(() => generateHexLine());
-    setLines(initial);
+    const timeout = setTimeout(() => {
+      const initial = Array(8).fill(0).map(() => generateHexLine());
+      setLines(initial);
+    }, 0);
     
     const interval = setInterval(() => {
       setLines(prev => [...prev.slice(1), generateHexLine()]);
     }, 200);
     
-    return () => clearInterval(interval);
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(interval);
+    };
   }, []);
   
   return (
