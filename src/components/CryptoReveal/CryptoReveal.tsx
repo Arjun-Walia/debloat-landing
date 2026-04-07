@@ -35,32 +35,51 @@ export default function CryptoReveal({
   useEffect(() => {
     if (!isInView || revealed) return;
 
-    const timeout = setTimeout(() => {
+    let animationFrameId: number;
+
+    const timeoutId = setTimeout(() => {
       const iterations = Math.floor(duration / SCRAMBLE_SPEED);
       let currentIteration = 0;
+      let lastUpdateTime = 0;
 
-      const interval = setInterval(() => {
-        currentIteration++;
-        const progress = currentIteration / iterations;
-        const revealedLength = Math.floor(text.length * progress);
+      const animate = (timestamp: number) => {
+        if (!lastUpdateTime) lastUpdateTime = timestamp;
 
-        // Build display: revealed characters + scrambled rest
-        const revealedPart = text.slice(0, revealedLength);
-        const scrambledPart = generateRandomHex(text.length - revealedLength);
-        
-        setDisplayText(revealedPart + scrambledPart);
+        const deltaTime = timestamp - lastUpdateTime;
 
-        if (currentIteration >= iterations) {
-          clearInterval(interval);
-          setDisplayText(text);
-          setRevealed(true);
+        // Only update based on our SCRAMBLE_SPEED interval
+        if (deltaTime >= SCRAMBLE_SPEED) {
+          currentIteration++;
+          const progress = currentIteration / iterations;
+          const revealedLength = Math.floor(text.length * progress);
+
+          // Build display: revealed characters + scrambled rest
+          const revealedPart = text.slice(0, revealedLength);
+          const scrambledPart = generateRandomHex(text.length - revealedLength);
+
+          setDisplayText(revealedPart + scrambledPart);
+
+          lastUpdateTime = timestamp; // Reset the last update time
+
+          if (currentIteration >= iterations) {
+            setDisplayText(text);
+            setRevealed(true);
+            return; // Stop animation loop
+          }
         }
-      }, SCRAMBLE_SPEED);
 
-      return () => clearInterval(interval);
+        animationFrameId = requestAnimationFrame(animate);
+      };
+
+      animationFrameId = requestAnimationFrame(animate);
     }, delay);
 
-    return () => clearTimeout(timeout);
+    return () => {
+      clearTimeout(timeoutId);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
   }, [isInView, text, delay, duration, revealed]);
 
   return (
