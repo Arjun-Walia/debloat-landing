@@ -1,12 +1,12 @@
 import { render, screen, act } from '@testing-library/react';
 import TextType from './TextType';
-import { vi } from 'vitest';
+import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 
 // Create a proper mock IntersectionObserver class
 class MockIntersectionObserver {
-  observe: vi.Mock;
-  disconnect: vi.Mock;
-  unobserve: vi.Mock;
+  observe: ReturnType<typeof vi.fn>;
+  disconnect: ReturnType<typeof vi.fn>;
+  unobserve: ReturnType<typeof vi.fn>;
 
   constructor(callback: IntersectionObserverCallback) {
     this.observe = vi.fn();
