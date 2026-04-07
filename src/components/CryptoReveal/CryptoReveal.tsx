@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useInView } from 'framer-motion';
 
 interface CryptoRevealProps {
   text: string;
@@ -12,7 +12,6 @@ interface CryptoRevealProps {
 }
 
 const HEX_CHARS = '0123456789ABCDEF';
-const SCRAMBLE_SPEED = 30; // ms per iteration
 
 function generateRandomHex(length: number): string {
   return Array.from({ length }, () => 
@@ -35,13 +34,15 @@ export default function CryptoReveal({
   useEffect(() => {
     if (!isInView || revealed) return;
 
-    const timeout = setTimeout(() => {
-      const iterations = Math.floor(duration / SCRAMBLE_SPEED);
-      let currentIteration = 0;
+    let animationFrameId: number;
 
-      const interval = setInterval(() => {
-        currentIteration++;
-        const progress = currentIteration / iterations;
+    const timeout = setTimeout(() => {
+      let startTime: number | null = null;
+
+      const animate = (timestamp: number) => {
+        if (startTime === null) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+        const progress = Math.min(elapsed / duration, 1);
         const revealedLength = Math.floor(text.length * progress);
 
         // Build display: revealed characters + scrambled rest
@@ -50,17 +51,23 @@ export default function CryptoReveal({
         
         setDisplayText(revealedPart + scrambledPart);
 
-        if (currentIteration >= iterations) {
-          clearInterval(interval);
+        if (progress < 1) {
+          animationFrameId = requestAnimationFrame(animate);
+        } else {
           setDisplayText(text);
           setRevealed(true);
         }
-      }, SCRAMBLE_SPEED);
+      };
 
-      return () => clearInterval(interval);
+      animationFrameId = requestAnimationFrame(animate);
     }, delay);
 
-    return () => clearTimeout(timeout);
+    return () => {
+      clearTimeout(timeout);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
   }, [isInView, text, delay, duration, revealed]);
 
   return (
