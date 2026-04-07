@@ -12,6 +12,7 @@ import {
   MessageSquare, 
   Lock, 
   Terminal,
+  RefreshCw,
   ArrowRight,
   Menu,
   X,
@@ -794,7 +795,7 @@ export default function Home() {
               {[
                 { icon: Terminal, title: "DOCUMENTATION", desc: "ADB commands, package lists, safety guides" },
                 { icon: Shield, title: "AI_ASSISTANCE", desc: "Perplexity answers your Android questions" },
-                { icon: Terminal, title: "REGULAR_UPDATES", desc: "New bloatware signatures and device support" },
+                { icon: RefreshCw, title: "REGULAR_UPDATES", desc: "New bloatware signatures and device support" },
               ].map((item) => (
                 <div 
                   key={item.title}
