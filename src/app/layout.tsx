@@ -14,6 +14,8 @@ const splineMonoFont = Spline_Sans_Mono({
   display: "swap",
 });
 
+export const runtime = "edge";
+
 export const metadata: Metadata = {
   title: "Debloat AI | Windows Optimization Suite",
   description: "AI-powered Windows optimization tool. Remove bloatware, boost performance, and reclaim your system's full potential.",
