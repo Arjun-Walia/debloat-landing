@@ -20,7 +20,6 @@ import {
   Smartphone,
   Usb,
   Bot,
-  Server,
   MonitorSmartphone,
   Github,
   Star,
