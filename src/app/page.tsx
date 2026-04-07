@@ -201,12 +201,9 @@ const generateHexLine = () => {
 
 // Data stream component
 function DataStream() {
-  const [lines, setLines] = useState<string[]>([]);
+  const [lines, setLines] = useState<string[]>(() => Array(8).fill(0).map(() => generateHexLine()));
   
   useEffect(() => {
-    const initial = Array(8).fill(0).map(() => generateHexLine());
-    setLines(initial);
-    
     const interval = setInterval(() => {
       setLines(prev => [...prev.slice(1), generateHexLine()]);
     }, 200);
