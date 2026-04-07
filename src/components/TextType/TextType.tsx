@@ -172,25 +172,33 @@ const TextType = ({
   const shouldHideCursor =
     hideCursorWhileTyping && (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
 
-  return createElement(
-    Component,
-    {
-      ref: containerRef,
-      className: `text-type ${className}`,
-      ...props
-    },
-    <span className="text-type__content" style={{ color: getCurrentTextColor() || 'inherit' }}>
+  const propsWithoutRef = {
+    className: `text-type ${className}`,
+    ...props
+  };
+
+  const combinedProps = {
+    ...propsWithoutRef,
+    ref: containerRef
+  };
+
+  const children = [
+    <span key="content" className="text-type__content" style={{ color: getCurrentTextColor() || 'inherit' }}>
       {displayedText}
     </span>,
     showCursor && (
       <span
+        key="cursor"
         ref={cursorRef}
         className={`text-type__cursor ${cursorClassName} ${shouldHideCursor ? 'text-type__cursor--hidden' : ''}`}
       >
         {cursorCharacter}
       </span>
     )
-  );
+  ].filter(Boolean);
+
+  const ComponentAsType = Component as React.ElementType;
+  return <ComponentAsType {...combinedProps}>{children}</ComponentAsType>;
 };
 
 export default TextType;

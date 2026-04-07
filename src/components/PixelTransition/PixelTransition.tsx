@@ -36,9 +36,14 @@ const PixelTransition: React.FC<PixelTransitionProps> = ({
   const [isTouchDevice, setIsTouchDevice] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsTouchDevice(
-      'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches
-    );
+    // Only run this on the client
+    const checkTouch = () => {
+      setIsTouchDevice(
+        'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches
+      );
+    };
+    // Run after mount (which is basically asynchronous regarding render)
+    setTimeout(checkTouch, 0);
   }, []);
 
   useEffect(() => {

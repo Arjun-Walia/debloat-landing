@@ -8,8 +8,6 @@ import { CryptoReveal } from "@/components/CryptoReveal";
 import { 
   Zap, 
   Shield, 
-  Cpu, 
-  Trash2, 
   MessageSquare, 
   Lock, 
   RefreshCw, 
@@ -20,13 +18,13 @@ import {
   Smartphone,
   Usb,
   Bot,
-  Server,
   MonitorSmartphone,
   Github,
   Star,
   AlertTriangle
 } from "lucide-react";
 import { useState, useEffect, useRef, useCallback } from "react";
+import Link from "next/link";
 
 // Boot sequence messages
 const bootMessages = [
@@ -179,36 +177,6 @@ const features = [
   { id: "005", icon: MonitorSmartphone, title: "CROSS_PLATFORM", desc: "Electron shell runs on Windows, Mac, and Linux", hoverInfo: "Same UI everywhere. ADB drivers bundled. No manual setup required", hasToggle: false },
   { id: "006", icon: Usb, title: "REALTIME_ADB", desc: "Auto-detects any connected Android device over USB", hoverInfo: "Plug in any Android. USB debugging required. Works with all manufacturers", hasToggle: false },
 ];
-
-// Simulated hex data stream
-const generateHexLine = () => {
-  const chars = "0123456789ABCDEF";
-  return Array(32).fill(0).map(() => chars[Math.floor(Math.random() * 16)]).join("");
-};
-
-// Data stream component
-function DataStream() {
-  const [lines, setLines] = useState<string[]>([]);
-  
-  useEffect(() => {
-    const initial = Array(8).fill(0).map(() => generateHexLine());
-    setLines(initial);
-    
-    const interval = setInterval(() => {
-      setLines(prev => [...prev.slice(1), generateHexLine()]);
-    }, 200);
-    
-    return () => clearInterval(interval);
-  }, []);
-  
-  return (
-    <div className="hex-display overflow-hidden h-full">
-      {lines.map((line, i) => (
-        <div key={i} className="opacity-30">{line}</div>
-      ))}
-    </div>
-  );
-}
 
 // Chat messages for terminal
 const chatMessages = [
@@ -879,9 +847,9 @@ export default function Home() {
                 <ul className="space-y-2">
                   {section.links.map((link) => (
                     <li key={link}>
-                      <a href="#" className="text-[#555] hover:text-[#D33C34] font-mono text-xs transition-colors duration-100">
+                      <Link href="#" className="text-[#555] hover:text-[#D33C34] font-mono text-xs transition-colors duration-100">
                         {link.toUpperCase()}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
