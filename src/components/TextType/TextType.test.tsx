@@ -201,6 +201,6 @@ describe('TextType Component', () => {
 
 declare global {
   interface Window {
-    __intersectionObserverCallback?: (entries: any[]) => void;
+    __intersectionObserverCallback?: (entries: unknown[]) => void;
   }
 }
