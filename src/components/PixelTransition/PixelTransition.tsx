@@ -47,6 +47,8 @@ const PixelTransition: React.FC<PixelTransitionProps> = ({
 
     pixelGridEl.innerHTML = '';
 
+    const fragment = document.createDocumentFragment();
+
     for (let row = 0; row < gridSize; row++) {
       for (let col = 0; col < gridSize; col++) {
         const pixel = document.createElement('div');
@@ -58,9 +60,11 @@ const PixelTransition: React.FC<PixelTransitionProps> = ({
         pixel.style.height = `${size}%`;
         pixel.style.left = `${col * size}%`;
         pixel.style.top = `${row * size}%`;
-        pixelGridEl.appendChild(pixel);
+        fragment.appendChild(pixel);
       }
     }
+
+    pixelGridEl.appendChild(fragment);
   }, [gridSize, pixelColor]);
 
   const animatePixels = (activate: boolean): void => {
