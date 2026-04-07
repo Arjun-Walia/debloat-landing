@@ -36,9 +36,20 @@ const PixelTransition: React.FC<PixelTransitionProps> = ({
   const [isTouchDevice, setIsTouchDevice] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsTouchDevice(
-      'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches
-    );
+    // Only run this once to update the value based on window
+    // Wrap in a microtask/setTimeout to avoid synchronous setState warning
+    const checkTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches;
+    let isActiveEffect = true;
+
+    Promise.resolve().then(() => {
+      if (isActiveEffect) {
+        setIsTouchDevice(checkTouch);
+      }
+    });
+
+    return () => {
+      isActiveEffect = false;
+    };
   }, []);
 
   useEffect(() => {
