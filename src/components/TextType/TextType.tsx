@@ -172,10 +172,8 @@ const TextType = ({
   const shouldHideCursor =
     hideCursorWhileTyping && (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
 
-  const ValidComponent = Component as React.ElementType;
-
   return (
-    <ValidComponent
+    <Component
       ref={containerRef}
       className={`text-type ${className}`}
       {...props}
@@ -191,7 +189,7 @@ const TextType = ({
           {cursorCharacter}
         </span>
       )}
-    </ValidComponent>
+    </Component>
   );
 };
 

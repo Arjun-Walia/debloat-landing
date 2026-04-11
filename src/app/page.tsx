@@ -8,7 +8,6 @@ import { CryptoReveal } from "@/components/CryptoReveal";
 import { 
   Zap, 
   Shield, 
-  Cpu, 
   MessageSquare, 
   Lock, 
   RefreshCw, 
@@ -178,35 +177,11 @@ const features = [
   { id: "006", icon: Usb, title: "REALTIME_ADB", desc: "Auto-detects any connected Android device over USB", hoverInfo: "Plug in any Android. USB debugging required. Works with all manufacturers", hasToggle: false },
 ];
 
-// Simulated hex data stream
-const generateHexLine = () => {
-  const chars = "0123456789ABCDEF";
-  return Array(32).fill(0).map(() => chars[Math.floor(Math.random() * 16)]).join("");
-};
+// Simulated hex data stream (unused)
+// const generateHexLine = () => { ... }
 
-// Data stream component
-function DataStream() {
-  const [lines, setLines] = useState<string[]>([]);
-  
-  useEffect(() => {
-    const initial = Array(8).fill(0).map(() => generateHexLine());
-    setLines(initial);
-    
-    const interval = setInterval(() => {
-      setLines(prev => [...prev.slice(1), generateHexLine()]);
-    }, 200);
-    
-    return () => clearInterval(interval);
-  }, []);
-  
-  return (
-    <div className="hex-display overflow-hidden h-full">
-      {lines.map((line, i) => (
-        <div key={i} className="opacity-30">{line}</div>
-      ))}
-    </div>
-  );
-}
+// Data stream component (unused)
+// function DataStream() { ... }
 
 // Chat messages for terminal
 const chatMessages = [
