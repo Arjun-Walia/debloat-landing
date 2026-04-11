@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import { TextType } from "@/components/TextType";
 import { PixelTransition } from "@/components/PixelTransition";
 import { CryptoReveal } from "@/components/CryptoReveal";
@@ -10,8 +12,8 @@ import {
   Shield, 
   MessageSquare, 
   Lock, 
-  RefreshCw, 
   Terminal,
+  RefreshCw,
   ArrowRight,
   Menu,
   X,
@@ -83,10 +85,18 @@ function HUDCursor() {
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
+    let ticking = false;
+
     const moveCursor = (e: MouseEvent) => {
-      if (cursorRef.current) {
-        cursorRef.current.style.left = `${e.clientX}px`;
-        cursorRef.current.style.top = `${e.clientY}px`;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (cursorRef.current) {
+            cursorRef.current.style.left = `${e.clientX}px`;
+            cursorRef.current.style.top = `${e.clientY}px`;
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
@@ -105,8 +115,8 @@ function HUDCursor() {
       }
     };
 
-    window.addEventListener('mousemove', moveCursor);
-    window.addEventListener('mouseover', handleMouseOver);
+    window.addEventListener('mousemove', moveCursor, { passive: true });
+    window.addEventListener('mouseover', handleMouseOver, { passive: true });
 
     return () => {
       window.removeEventListener('mousemove', moveCursor);
@@ -177,6 +187,12 @@ const features = [
   { id: "005", icon: MonitorSmartphone, title: "CROSS_PLATFORM", desc: "Electron shell runs on Windows, Mac, and Linux", hoverInfo: "Same UI everywhere. ADB drivers bundled. No manual setup required", hasToggle: false },
   { id: "006", icon: Usb, title: "REALTIME_ADB", desc: "Auto-detects any connected Android device over USB", hoverInfo: "Plug in any Android. USB debugging required. Works with all manufacturers", hasToggle: false },
 ];
+
+// Simulated hex data stream (unused)
+// const generateHexLine = () => { ... }
+
+// Data stream component (unused)
+// function DataStream() { ... }
 
 // Chat messages for terminal
 const chatMessages = [
@@ -328,20 +344,20 @@ export default function Home() {
             {/* Nav Links */}
             <div className="hidden md:flex items-center">
               {["FEATURES", "SYSTEM", "SUPPORT"].map((item) => (
-                <a 
+                <Link
                   key={item}
-                  href={`#${item.toLowerCase()}`} 
+                  href={`/#${item.toLowerCase()}`}
                   className="docs-nav-link px-6 py-4 border-r border-[#1a1a1a] text-[#555] hover:text-[#D33C34] hover:bg-[#050505] transition-all duration-100 font-mono text-xs tracking-widest"
                 >
                   {item}
-                </a>
+                </Link>
               ))}
-              <a 
+              <Link
                 href="/docs"
                 className="docs-nav-link px-6 py-4 border-r border-[#1a1a1a] text-[#555] hover:text-[#D33C34] hover:bg-[#050505] transition-all duration-100 font-mono text-xs tracking-widest"
               >
                 DOCS
-              </a>
+              </Link>
               <button className="btn-brutal terminal-focus ml-4 mr-6" data-text="DOWNLOAD" onClick={playClickSound}>
                 DOWNLOAD
               </button>
@@ -366,20 +382,20 @@ export default function Home() {
             transition={{ duration: 0.15 }}
           >
             {["FEATURES", "SYSTEM", "SUPPORT"].map((item) => (
-              <a 
+              <Link
                 key={item}
-                href={`#${item.toLowerCase()}`} 
+                href={`/#${item.toLowerCase()}`}
                 className="block px-6 py-4 border-b border-[#1a1a1a] text-[#555] hover:text-[#D33C34] font-mono text-xs tracking-widest"
               >
                 {item}
-              </a>
+              </Link>
             ))}
-            <a 
+            <Link
               href="/docs"
               className="block px-6 py-4 border-b border-[#1a1a1a] text-[#555] hover:text-[#D33C34] font-mono text-xs tracking-widest"
             >
               DOCS
-            </a>
+            </Link>
             <div className="p-6">
               <button className="btn-brutal w-full" data-text="DOWNLOAD" onClick={playClickSound}>DOWNLOAD</button>
             </div>
@@ -719,9 +735,9 @@ export default function Home() {
                   "Action Mode for direct ADB execution", 
                   "Automatic backup vaults before removal",
                   "Works with any Android device via USB"
-                ].map((item, i) => (
+                ].map((item) => (
                   <div 
-                    key={i}
+                    key={item}
                     className="px-8 py-4 border-b border-[#1a1a1a] flex items-center gap-4 hover:bg-[#050505] transition-colors duration-100"
                   >
                     <span className="status-dot" />
@@ -862,9 +878,9 @@ export default function Home() {
             <span className="text-[#333] font-mono text-xs">DESKTOP_TO_ANDROID_AI_DEBLOATER</span>
             <div className="flex items-center gap-6">
               {["STATUS", "HELP", "CONTACT"].map((item) => (
-                <a key={item} href="#" className="text-[#333] hover:text-white font-mono text-xs transition-colors duration-100">
+                <Link key={item} href="#" className="text-[#333] hover:text-white font-mono text-xs transition-colors duration-100">
                   {item}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
