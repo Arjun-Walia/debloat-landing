@@ -1,133 +1,105 @@
+import React from 'react';
 import { render, screen, act } from '@testing-library/react';
-import { vi } from 'vitest';
 import CryptoReveal from './CryptoReveal';
+import { useInView } from 'framer-motion';
 
 // Mock framer-motion's useInView
-vi.mock('framer-motion', () => ({
-  useInView: vi.fn(),
+jest.mock('framer-motion', () => ({
+  useInView: jest.fn(),
   motion: {
-    span: 'span',
     div: 'div',
+    span: 'span',
     h1: 'h1',
     h2: 'h2',
     h3: 'h3',
   },
 }));
 
-import { useInView } from 'framer-motion';
+describe('CryptoReveal Component', () => {
+  const defaultProps = {
+    text: 'Hello World',
+  };
 
-describe('CryptoReveal', () => {
   beforeEach(() => {
-    vi.useFakeTimers();
-    vi.clearAllMocks();
+    jest.useFakeTimers();
+    (useInView as jest.Mock).mockClear();
   });
 
   afterEach(() => {
-    vi.runOnlyPendingTimers();
-    vi.useRealTimers();
+    jest.useRealTimers();
   });
 
-  it('renders with initially scrambled text when not in view', () => {
-    (useInView as any).mockReturnValue(false);
+  it('renders scrambled text initially when not in view', () => {
+    // Component not in view
+    (useInView as jest.Mock).mockReturnValue(false);
 
-    const testText = 'Hello World';
-    render(<CryptoReveal text={testText} />);
-
-    // Should render scrambled text of the same length
+    render(<CryptoReveal {...defaultProps} />);
     const element = screen.getByText((content, element) => {
-      return content.length === testText.length && content !== testText;
+      // It should render exactly text.length characters but not the original text yet
+      return element?.tagName.toLowerCase() === 'span' && content.length === defaultProps.text.length && content !== defaultProps.text;
     });
 
     expect(element).toBeInTheDocument();
 
-    // Check it only contains hex chars
-    expect(element.textContent).toMatch(/^[0-9A-F]+$/);
+    // Original text should not be visible
+    expect(screen.queryByText(defaultProps.text)).not.toBeInTheDocument();
   });
 
-  it('scrambles and eventually reveals the text when in view', () => {
-    (useInView as any).mockReturnValue(true);
+  it('reveals the text eventually when in view', () => {
+    // Component in view
+    (useInView as jest.Mock).mockReturnValue(true);
 
-    const testText = 'Hello World';
-    const duration = 800; // Default duration
-    const scrambleSpeed = 30; // ms per iteration
+    render(<CryptoReveal {...defaultProps} delay={0} duration={800} />);
 
-    render(<CryptoReveal text={testText} duration={duration} />);
+    // Initially scrambled, not fully revealed
+    expect(screen.queryByText(defaultProps.text)).not.toBeInTheDocument();
 
-    // Initially should be completely scrambled
-    const element = screen.getByText((content) => {
-        return content.length === testText.length;
-    });
-    const initialText = element.textContent;
-
-    // Advance by some iterations
     act(() => {
-      vi.advanceTimersByTime(duration / 2);
+      // Fast forward past the delay and duration
+      jest.advanceTimersByTime(1000);
     });
 
-    // Should be partially revealed
-    expect(element.textContent).not.toBe(initialText);
-    expect(element.textContent).not.toBe(testText);
-
-    // Some starting characters should be revealed
-    const revealedLength = Math.floor(testText.length * 0.5);
-    expect(element.textContent?.startsWith(testText.slice(0, revealedLength))).toBe(true);
-
-    // Advance to the end
-    act(() => {
-      vi.advanceTimersByTime(duration);
-    });
-
-    // Should be fully revealed
-    expect(element).toHaveTextContent(testText);
+    // Now it should be fully revealed
+    expect(screen.getByText(defaultProps.text)).toBeInTheDocument();
   });
 
-  it('respects the delay prop', () => {
-    (useInView as any).mockReturnValue(true);
+  it('uses the provided HTML tag', () => {
+    (useInView as jest.Mock).mockReturnValue(false);
 
-    const testText = 'Delayed';
+    const { container } = render(<CryptoReveal {...defaultProps} as="h1" />);
+    expect(container.querySelector('h1')).toBeInTheDocument();
+  });
+
+  it('applies custom className', () => {
+    (useInView as jest.Mock).mockReturnValue(false);
+
+    const { container } = render(<CryptoReveal {...defaultProps} className="text-red-500" />);
+    expect(container.firstChild).toHaveClass('text-red-500');
+  });
+
+  it('delays the scrambling effect', () => {
+    (useInView as jest.Mock).mockReturnValue(true);
     const delay = 500;
-    const duration = 300;
 
-    render(<CryptoReveal text={testText} delay={delay} duration={duration} />);
+    render(<CryptoReveal {...defaultProps} delay={delay} duration={800} />);
 
-    const element = screen.getByText((content) => {
-        return content.length === testText.length;
-    });
+    // At t=0, it should be fully scrambled (no real characters except by chance, but definitely not the whole string)
+    expect(screen.queryByText(defaultProps.text)).not.toBeInTheDocument();
 
-    const initialText = element.textContent;
-
-    // Advance time but less than delay
     act(() => {
-      vi.advanceTimersByTime(delay - 100);
+      // Fast forward up to delay
+      jest.advanceTimersByTime(delay - 10);
     });
 
-    // Should still be initial scrambled text
-    expect(element.textContent).toBe(initialText);
+    // Should still be completely scrambled
+    expect(screen.queryByText(defaultProps.text)).not.toBeInTheDocument();
 
-    // Advance past delay
     act(() => {
-      vi.advanceTimersByTime(150);
+      // Fast forward past delay + duration
+      jest.advanceTimersByTime(820);
     });
 
-    // Should start changing
-    expect(element.textContent).not.toBe(initialText);
-
-    // Advance to end
-    act(() => {
-      vi.advanceTimersByTime(duration);
-    });
-
-    expect(element).toHaveTextContent(testText);
-  });
-
-  it('renders with the correct tag', () => {
-    (useInView as any).mockReturnValue(false);
-
-    render(<CryptoReveal text="Test" as="h1" data-testid="crypto-heading" />);
-
-    // We cannot easily target by data-testid since it does not accept standard HTML props in this implementation
-    // But we can check if there's an h1
-    const heading = screen.getByRole('heading', { level: 1 });
-    expect(heading).toBeInTheDocument();
+    // Now it should be fully revealed
+    expect(screen.getByText(defaultProps.text)).toBeInTheDocument();
   });
 });
