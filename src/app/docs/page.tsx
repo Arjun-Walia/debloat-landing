@@ -576,7 +576,7 @@ export default function DocsPage() {
           <div className="p-6 pt-20">
             <nav className="space-y-2">
               {sidebarNav.map((item) => (
-                <a
+                <Link
                   key={item.id}
                   href={`#${item.id}`}
                   onClick={() => { setMobileNavOpen(false); playClickSound(); }}
@@ -584,7 +584,7 @@ export default function DocsPage() {
                 >
                   <span className="text-[#71A1A1] mr-2">{item.num}.</span>
                   {item.label}
-                </a>
+                </Link>
               ))}
             </nav>
           </div>

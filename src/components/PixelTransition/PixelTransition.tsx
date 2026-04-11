@@ -33,7 +33,9 @@ const PixelTransition: React.FC<PixelTransitionProps> = ({
   const delayedCallRef = useRef<gsap.core.Tween | null>(null);
 
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [isTouchDevice, setIsTouchDevice] = useState<boolean>(false);
+
+  // Use a ref instead of state to prevent hydration mismatch and useEffect setState warnings.
+  const isTouchDevice = useRef<boolean>(false);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -131,11 +133,11 @@ const PixelTransition: React.FC<PixelTransitionProps> = ({
       ref={containerRef}
       className={`pixelated-image-card ${className}`}
       style={style}
-      onMouseEnter={!isTouchDevice ? handleEnter : undefined}
-      onMouseLeave={!isTouchDevice ? handleLeave : undefined}
-      onClick={isTouchDevice ? handleClick : undefined}
-      onFocus={!isTouchDevice ? handleEnter : undefined}
-      onBlur={!isTouchDevice ? handleLeave : undefined}
+      onMouseEnter={() => { if (!isTouchDevice.current) handleEnter(); }}
+      onMouseLeave={() => { if (!isTouchDevice.current) handleLeave(); }}
+      onClick={() => { if (isTouchDevice.current) handleClick(); }}
+      onFocus={() => { if (!isTouchDevice.current) handleEnter(); }}
+      onBlur={() => { if (!isTouchDevice.current) handleLeave(); }}
       tabIndex={0}
     >
       <div style={{ paddingTop: aspectRatio }} />
