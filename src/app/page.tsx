@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import { TextType } from "@/components/TextType";
 import { PixelTransition } from "@/components/PixelTransition";
 import { CryptoReveal } from "@/components/CryptoReveal";
@@ -733,9 +734,9 @@ export default function Home() {
                   "Action Mode for direct ADB execution", 
                   "Automatic backup vaults before removal",
                   "Works with any Android device via USB"
-                ].map((item, i) => (
+                ].map((item) => (
                   <div 
-                    key={i}
+                    key={item}
                     className="px-8 py-4 border-b border-[#1a1a1a] flex items-center gap-4 hover:bg-[#050505] transition-colors duration-100"
                   >
                     <span className="status-dot" />
