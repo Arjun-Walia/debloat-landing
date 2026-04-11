@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { CryptoReveal } from '@/components/CryptoReveal';
+import Link from 'next/link';
 import { 
   Zap, 
   ArrowRight, 
