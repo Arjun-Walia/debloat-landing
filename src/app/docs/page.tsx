@@ -243,7 +243,7 @@ export default function DocsPage() {
             <span className="label-mono text-[#D33C34] block mb-6">DOCUMENTATION</span>
             <nav className="space-y-1">
               {sidebarNav.map((item) => (
-                <a
+                <Link
                   key={item.id}
                   href={`#${item.id}`}
                   onClick={playClickSound}
@@ -255,7 +255,7 @@ export default function DocsPage() {
                 >
                   <span className="text-[#71A1A1] mr-2">{item.num}.</span>
                   {item.label}
-                </a>
+                </Link>
               ))}
             </nav>
           </div>
