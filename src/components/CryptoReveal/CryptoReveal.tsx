@@ -12,7 +12,6 @@ interface CryptoRevealProps {
 }
 
 const HEX_CHARS = '0123456789ABCDEF';
-const SCRAMBLE_SPEED = 30; // ms per iteration
 
 function generateRandomHex(length: number): string {
   return Array.from({ length }, () => 
