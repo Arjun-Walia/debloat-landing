@@ -172,8 +172,12 @@ const TextType = ({
   const shouldHideCursor =
     hideCursorWhileTyping && (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
 
-  const innerContent = (
-    <>
+  return (
+    <Component
+      ref={containerRef}
+      className={`text-type ${className}`}
+      {...props}
+    >
       <span className="text-type__content" style={{ color: getCurrentTextColor() || 'inherit' }}>
         {displayedText}
       </span>
@@ -185,16 +189,6 @@ const TextType = ({
           {cursorCharacter}
         </span>
       )}
-    </>
-  );
-
-  return (
-    <Component
-      ref={containerRef}
-      className={`text-type ${className}`}
-      {...props}
-    >
-      {innerContent}
     </Component>
   );
 };

@@ -33,12 +33,16 @@ const PixelTransition: FC<PixelTransitionProps> = ({
   const delayedCallRef = useRef<gsap.core.Tween | null>(null);
 
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [isTouchDevice, setIsTouchDevice] = useState<boolean>(false);
+
+  // Use a ref instead of state to prevent hydration mismatch and useEffect setState warnings.
+  const isTouchDevice = useRef<boolean>(false);
 
   useEffect(() => {
-    // Avoid synchronous state updates inside useEffect to prevent cascading renders
-    const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches);
-    const timeoutId = setTimeout(() => setIsTouchDevice(isTouch), 0);
+    const timeoutId = setTimeout(() => {
+      setIsTouchDevice(
+        'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches
+      );
+    }, 0);
     return () => clearTimeout(timeoutId);
   }, []);
 
@@ -47,6 +51,8 @@ const PixelTransition: FC<PixelTransitionProps> = ({
     if (!pixelGridEl) return;
 
     pixelGridEl.innerHTML = '';
+
+    const fragment = document.createDocumentFragment();
 
     for (let row = 0; row < gridSize; row++) {
       for (let col = 0; col < gridSize; col++) {
@@ -59,9 +65,11 @@ const PixelTransition: FC<PixelTransitionProps> = ({
         pixel.style.height = `${size}%`;
         pixel.style.left = `${col * size}%`;
         pixel.style.top = `${row * size}%`;
-        pixelGridEl.appendChild(pixel);
+        fragment.appendChild(pixel);
       }
     }
+
+    pixelGridEl.appendChild(fragment);
   }, [gridSize, pixelColor]);
 
   const animatePixels = (activate: boolean): void => {
@@ -125,11 +133,11 @@ const PixelTransition: FC<PixelTransitionProps> = ({
       ref={containerRef}
       className={`pixelated-image-card ${className}`}
       style={style}
-      onMouseEnter={!isTouchDevice ? handleEnter : undefined}
-      onMouseLeave={!isTouchDevice ? handleLeave : undefined}
-      onClick={isTouchDevice ? handleClick : undefined}
-      onFocus={!isTouchDevice ? handleEnter : undefined}
-      onBlur={!isTouchDevice ? handleLeave : undefined}
+      onMouseEnter={() => { if (!isTouchDevice.current) handleEnter(); }}
+      onMouseLeave={() => { if (!isTouchDevice.current) handleLeave(); }}
+      onClick={() => { if (isTouchDevice.current) handleClick(); }}
+      onFocus={() => { if (!isTouchDevice.current) handleEnter(); }}
+      onBlur={() => { if (!isTouchDevice.current) handleLeave(); }}
       tabIndex={0}
     >
       <div style={{ paddingTop: aspectRatio }} />
