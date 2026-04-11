@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { TextType } from "@/components/TextType";
@@ -11,8 +12,8 @@ import {
   Shield, 
   MessageSquare, 
   Lock, 
-  RefreshCw, 
   Terminal,
+  RefreshCw,
   ArrowRight,
   Menu,
   X,
@@ -83,10 +84,18 @@ function HUDCursor() {
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
+    let ticking = false;
+
     const moveCursor = (e: MouseEvent) => {
-      if (cursorRef.current) {
-        cursorRef.current.style.left = `${e.clientX}px`;
-        cursorRef.current.style.top = `${e.clientY}px`;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (cursorRef.current) {
+            cursorRef.current.style.left = `${e.clientX}px`;
+            cursorRef.current.style.top = `${e.clientY}px`;
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
@@ -105,8 +114,8 @@ function HUDCursor() {
       }
     };
 
-    window.addEventListener('mousemove', moveCursor);
-    window.addEventListener('mouseover', handleMouseOver);
+    window.addEventListener('mousemove', moveCursor, { passive: true });
+    window.addEventListener('mouseover', handleMouseOver, { passive: true });
 
     return () => {
       window.removeEventListener('mousemove', moveCursor);
@@ -178,39 +187,11 @@ const features = [
   { id: "006", icon: Usb, title: "REALTIME_ADB", desc: "Auto-detects any connected Android device over USB", hoverInfo: "Plug in any Android. USB debugging required. Works with all manufacturers", hasToggle: false },
 ];
 
-// Simulated hex data stream
-const generateHexLine = () => {
-  const chars = "0123456789ABCDEF";
-  return Array(32).fill(0).map(() => chars[Math.floor(Math.random() * 16)]).join("");
-};
+// Simulated hex data stream (unused)
+// const generateHexLine = () => { ... }
 
-// Data stream component
-export function DataStream() {
-  const [lines, setLines] = useState<string[]>(() => {
-    // Only generate initial on client to avoid hydration mismatch, or just return empty first
-    return [];
-  });
-  
-  useEffect(() => {
-    // Initialize once mounted
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setLines(Array(8).fill(0).map(() => generateHexLine()));
-    
-    const interval = setInterval(() => {
-      setLines(prev => [...prev.slice(1), generateHexLine()]);
-    }, 200);
-    
-    return () => clearInterval(interval);
-  }, []);
-  
-  return (
-    <div className="hex-display overflow-hidden h-full">
-      {lines.map((line, i) => (
-        <div key={i} className="opacity-30">{line}</div>
-      ))}
-    </div>
-  );
-}
+// Data stream component (unused)
+// function DataStream() { ... }
 
 // Chat messages for terminal
 const chatMessages = [
@@ -364,7 +345,7 @@ export default function Home() {
               {["FEATURES", "SYSTEM", "SUPPORT"].map((item) => (
                 <Link
                   key={item}
-                  href={`#${item.toLowerCase()}`} 
+                  href={`/#${item.toLowerCase()}`}
                   className="docs-nav-link px-6 py-4 border-r border-[#1a1a1a] text-[#555] hover:text-[#D33C34] hover:bg-[#050505] transition-all duration-100 font-mono text-xs tracking-widest"
                 >
                   {item}
@@ -402,7 +383,7 @@ export default function Home() {
             {["FEATURES", "SYSTEM", "SUPPORT"].map((item) => (
               <Link
                 key={item}
-                href={`#${item.toLowerCase()}`} 
+                href={`/#${item.toLowerCase()}`}
                 className="block px-6 py-4 border-b border-[#1a1a1a] text-[#555] hover:text-[#D33C34] font-mono text-xs tracking-widest"
               >
                 {item}

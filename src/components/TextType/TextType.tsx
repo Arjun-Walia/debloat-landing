@@ -172,14 +172,12 @@ const TextType = ({
   const shouldHideCursor =
     hideCursorWhileTyping && (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
 
-  const componentProps = {
-    className: `text-type ${className}`,
-    ...props
-  };
-
-  // Ensure ref is attached to the DOM node correctly.
   return (
-    <Component ref={containerRef} {...componentProps}>
+    <Component
+      ref={containerRef}
+      className={`text-type ${className}`}
+      {...props}
+    >
       <span className="text-type__content" style={{ color: getCurrentTextColor() || 'inherit' }}>
         {displayedText}
       </span>
