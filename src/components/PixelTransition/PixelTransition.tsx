@@ -36,20 +36,12 @@ const PixelTransition: React.FC<PixelTransitionProps> = ({
   const [isTouchDevice, setIsTouchDevice] = useState<boolean>(false);
 
   useEffect(() => {
-    // Only run this once to update the value based on window
-    // Wrap in a microtask/setTimeout to avoid synchronous setState warning
-    const checkTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches;
-    let isActiveEffect = true;
-
-    Promise.resolve().then(() => {
-      if (isActiveEffect) {
-        setIsTouchDevice(checkTouch);
-      }
-    });
-
-    return () => {
-      isActiveEffect = false;
-    };
+    const timeoutId = setTimeout(() => {
+      setIsTouchDevice(
+        'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches
+      );
+    }, 0);
+    return () => clearTimeout(timeoutId);
   }, []);
 
   useEffect(() => {
@@ -57,6 +49,8 @@ const PixelTransition: React.FC<PixelTransitionProps> = ({
     if (!pixelGridEl) return;
 
     pixelGridEl.innerHTML = '';
+
+    const fragment = document.createDocumentFragment();
 
     for (let row = 0; row < gridSize; row++) {
       for (let col = 0; col < gridSize; col++) {
@@ -69,9 +63,11 @@ const PixelTransition: React.FC<PixelTransitionProps> = ({
         pixel.style.height = `${size}%`;
         pixel.style.left = `${col * size}%`;
         pixel.style.top = `${row * size}%`;
-        pixelGridEl.appendChild(pixel);
+        fragment.appendChild(pixel);
       }
     }
+
+    pixelGridEl.appendChild(fragment);
   }, [gridSize, pixelColor]);
 
   const animatePixels = (activate: boolean): void => {

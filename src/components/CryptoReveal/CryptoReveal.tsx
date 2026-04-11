@@ -36,34 +36,45 @@ export default function CryptoReveal({
 
     let animationFrameId: number;
 
-    const timeout = setTimeout(() => {
-      let startTime: number | null = null;
+    const timeoutId = setTimeout(() => {
+      const iterations = Math.floor(duration / SCRAMBLE_SPEED);
+      let currentIteration = 0;
+      let lastUpdateTime = 0;
 
       const animate = (timestamp: number) => {
-        if (startTime === null) startTime = timestamp;
-        const elapsed = timestamp - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const revealedLength = Math.floor(text.length * progress);
+        if (!lastUpdateTime) lastUpdateTime = timestamp;
 
-        // Build display: revealed characters + scrambled rest
-        const revealedPart = text.slice(0, revealedLength);
-        const scrambledPart = generateRandomHex(text.length - revealedLength);
-        
-        setDisplayText(revealedPart + scrambledPart);
+        const deltaTime = timestamp - lastUpdateTime;
 
-        if (progress < 1) {
-          animationFrameId = requestAnimationFrame(animate);
-        } else {
-          setDisplayText(text);
-          setRevealed(true);
+        // Only update based on our SCRAMBLE_SPEED interval
+        if (deltaTime >= SCRAMBLE_SPEED) {
+          currentIteration++;
+          const progress = currentIteration / iterations;
+          const revealedLength = Math.floor(text.length * progress);
+
+          // Build display: revealed characters + scrambled rest
+          const revealedPart = text.slice(0, revealedLength);
+          const scrambledPart = generateRandomHex(text.length - revealedLength);
+
+          setDisplayText(revealedPart + scrambledPart);
+
+          lastUpdateTime = timestamp; // Reset the last update time
+
+          if (currentIteration >= iterations) {
+            setDisplayText(text);
+            setRevealed(true);
+            return; // Stop animation loop
+          }
         }
+
+        animationFrameId = requestAnimationFrame(animate);
       };
 
       animationFrameId = requestAnimationFrame(animate);
     }, delay);
 
     return () => {
-      clearTimeout(timeout);
+      clearTimeout(timeoutId);
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
       }
