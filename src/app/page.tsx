@@ -177,6 +177,12 @@ const features = [
   { id: "006", icon: Usb, title: "REALTIME_ADB", desc: "Auto-detects any connected Android device over USB", hoverInfo: "Plug in any Android. USB debugging required. Works with all manufacturers", hasToggle: false },
 ];
 
+// Simulated hex data stream (unused)
+// const generateHexLine = () => { ... }
+
+// Data stream component (unused)
+// function DataStream() { ... }
+
 // Chat messages for terminal
 const chatMessages = [
   { role: "USER", text: "> scan for bloatware" },
