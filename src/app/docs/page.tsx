@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from "next/link";
 import { CryptoReveal } from '@/components/CryptoReveal';
+import Link from 'next/link';
 import { 
   Zap, 
   ArrowRight, 
@@ -10,7 +11,9 @@ import {
   X,
   Shield
 } from 'lucide-react';
+import Link from 'next/link';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import Link from 'next/link';
 
 // Animation variants
 const snapIn = {
@@ -157,20 +160,33 @@ export default function DocsPage() {
 
   // Scroll spy
   useEffect(() => {
+    // Cache DOM elements on mount
+    const sections = sidebarNav.map(nav => ({
+      id: nav.id,
+      element: document.getElementById(nav.id)
+    }));
+
+    let ticking = false;
+
     const handleScroll = () => {
-      const sections = sidebarNav.map(nav => document.getElementById(nav.id));
-      const scrollPos = window.scrollY + 200;
-      
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        if (section && section.offsetTop <= scrollPos) {
-          setActiveSection(sidebarNav[i].id);
-          break;
-        }
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollPos = window.scrollY + 200;
+
+          for (let i = sections.length - 1; i >= 0; i--) {
+            const { id, element } = sections[i];
+            if (element && element.offsetTop <= scrollPos) {
+              setActiveSection(id);
+              break;
+            }
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 

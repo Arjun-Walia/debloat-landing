@@ -11,8 +11,8 @@ import {
   Shield, 
   MessageSquare, 
   Lock, 
-  RefreshCw, 
   Terminal,
+  RefreshCw,
   ArrowRight,
   Menu,
   X,
@@ -186,6 +186,12 @@ const features = [
   { id: "006", icon: Usb, title: "REALTIME_ADB", desc: "Auto-detects any connected Android device over USB", hoverInfo: "Plug in any Android. USB debugging required. Works with all manufacturers", hasToggle: false },
 ];
 
+// Simulated hex data stream (unused)
+// const generateHexLine = () => { ... }
+
+// Data stream component (unused)
+// function DataStream() { ... }
+
 // Chat messages for terminal
 const chatMessages = [
   { role: "USER", text: "> scan for bloatware" },
@@ -338,7 +344,7 @@ export default function Home() {
               {["FEATURES", "SYSTEM", "SUPPORT"].map((item) => (
                 <Link
                   key={item}
-                  href={`#${item.toLowerCase()}`} 
+                  href={`/#${item.toLowerCase()}`}
                   className="docs-nav-link px-6 py-4 border-r border-[#1a1a1a] text-[#555] hover:text-[#D33C34] hover:bg-[#050505] transition-all duration-100 font-mono text-xs tracking-widest"
                 >
                   {item}
@@ -376,7 +382,7 @@ export default function Home() {
             {["FEATURES", "SYSTEM", "SUPPORT"].map((item) => (
               <Link
                 key={item}
-                href={`#${item.toLowerCase()}`} 
+                href={`/#${item.toLowerCase()}`}
                 className="block px-6 py-4 border-b border-[#1a1a1a] text-[#555] hover:text-[#D33C34] font-mono text-xs tracking-widest"
               >
                 {item}
@@ -855,9 +861,9 @@ export default function Home() {
                 <ul className="space-y-2">
                   {section.links.map((link) => (
                     <li key={link}>
-                      <a href="#" className="text-[#555] hover:text-[#D33C34] font-mono text-xs transition-colors duration-100">
+                      <Link href="#" className="text-[#555] hover:text-[#D33C34] font-mono text-xs transition-colors duration-100">
                         {link.toUpperCase()}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -870,9 +876,9 @@ export default function Home() {
             <span className="text-[#333] font-mono text-xs">DESKTOP_TO_ANDROID_AI_DEBLOATER</span>
             <div className="flex items-center gap-6">
               {["STATUS", "HELP", "CONTACT"].map((item) => (
-                <a key={item} href="#" className="text-[#333] hover:text-white font-mono text-xs transition-colors duration-100">
+                <Link key={item} href="#" className="text-[#333] hover:text-white font-mono text-xs transition-colors duration-100">
                   {item}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
