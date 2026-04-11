@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from "next/link";
 import { CryptoReveal } from '@/components/CryptoReveal';
 import Link from 'next/link';
 import { 
